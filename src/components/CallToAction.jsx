@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function CallToAction() {
   return (
     <section className="mx-auto max-w-[1700px] px-12 py-8">
@@ -10,18 +12,18 @@ export default function CallToAction() {
             Ready to transform your commute?
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#"
-              className="rounded-lg bg-brand-red-dark px-8 py-6 font-display text-xl font-semibold text-white"
+            <button
+              onClick={() => alert('Mobile app is coming soon! Please use the web version for now.')}
+              className="rounded-lg bg-brand-red-dark px-8 py-6 font-display text-xl font-semibold text-white transition-opacity hover:opacity-90"
             >
               Download App
-            </a>
-            <a
-              href="#"
-              className="rounded-lg border-2 border-[#eaf1ff] px-[34px] py-[26px] font-display text-xl font-semibold text-[#eaf1ff]"
+            </button>
+            <Link
+              to="/register"
+              className="rounded-lg border-2 border-[#eaf1ff] px-[34px] py-[26px] font-display text-xl font-semibold text-[#eaf1ff] transition-colors hover:bg-white/10"
             >
               Become a Driver
-            </a>
+            </Link>
           </div>
         </div>
       </div>

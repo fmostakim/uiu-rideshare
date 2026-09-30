@@ -12,7 +12,15 @@ export default function Footer() {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-6">
           {FOOTER_LINKS.map((label) => (
-            <a key={label} href="#" className="font-body text-sm text-brand-text hover:text-brand-red-dark">
+            <a
+              key={label}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                alert(`${label} page is coming soon!`);
+              }}
+              className="font-body text-sm text-brand-text hover:text-brand-red-dark"
+            >
               {label}
             </a>
           ))}
