@@ -9,7 +9,7 @@ const SF = (c) => `fill="${c}"`;
 
 // ── Map preview (Unsplash aerial city) ───────────────────────────────────────
 export const mapRoutePreview =
-  'https://images.unsplash.com/photo-1476044800831-f8b93c93f4bc?w=700&q=80';
+  'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&q=80';
 
 // ── Vehicle type icons ───────────────────────────────────────────────────────
 export const iconCar = ico(
