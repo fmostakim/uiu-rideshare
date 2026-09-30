@@ -1,3 +1,5 @@
+import routeMap3D from './img/route-map-3d.png';
+
 const ico = (path, vb = '0 0 24 24') =>
   `data:image/svg+xml,${encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${path}</svg>`
@@ -7,9 +9,8 @@ const S  = (c = '#374151') =>
   `stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
 const SF = (c) => `fill="${c}"`;
 
-// ── Map preview (Unsplash aerial city) ───────────────────────────────────────
-export const mapRoutePreview =
-  'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&q=80';
+// ── Map preview ──────────────────────────────────────────────────────────────
+export const mapRoutePreview = routeMap3D;
 
 // ── Vehicle type icons ───────────────────────────────────────────────────────
 export const iconCar = ico(

@@ -1,3 +1,5 @@
+import routeMap3D from './img/route-map-3d.png';
+
 // All icons are inline SVGs (never expire).
 // Photos use Unsplash / UI-Avatars (free, no-auth CDNs).
 
@@ -22,11 +24,10 @@ export const avatarSafety2 =
 export const avatarSafety3 =
   'https://ui-avatars.com/api/?name=Fahim+M&background=1d4ed8&color=fff&size=200&rounded=true&bold=true';
 
-// ── Photos (Unsplash) ─────────────────────────────────────────────────────────
+// ── Photos ────────────────────────────────────────────────────────────────────
 export const heroBackground =
   'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80';
-export const mapPreview =
-  'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80';
+export const mapPreview = routeMap3D;
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 const S = 'stroke="#b7131a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"';
