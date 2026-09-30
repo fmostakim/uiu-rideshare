@@ -96,6 +96,20 @@ export const mongoStore = {
     return serialize(result?.value ?? result);
   },
 
+  async incrementSeat(id) {
+    const _id = toId(id);
+    if (!_id) return null;
+    const db = await getDb();
+    const result = await collections
+      .rides(db)
+      .findOneAndUpdate(
+        { _id },
+        { $inc: { seatsAvailable: 1 } },
+        { returnDocument: 'after' }
+      );
+    return serialize(result?.value ?? result);
+  },
+
   // ---- users ----
   async findUserByStudentId(studentId) {
     const db = await getDb();

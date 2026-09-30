@@ -10,10 +10,22 @@ export const ridesService = {
   async listRides(filters) {
     const rides = await store.findRides(filters);
 
+    const parseTime = (t) => {
+      if (!t) return 0;
+      const match = String(t).match(/^(\d{2}):(\d{2})\s*(AM|PM)$/i);
+      if (!match) return 0;
+      let [_, h, m, p] = match;
+      h = Number(h);
+      if (p.toUpperCase() === 'PM' && h !== 12) h += 12;
+      if (p.toUpperCase() === 'AM' && h === 12) h = 0;
+      return h * 60 + Number(m);
+    };
+
     // Sort earliest first, matching the "Sort by: Earliest" control in the UI.
     return [...rides].sort((a, b) => {
       const byDate = String(a.departureDate).localeCompare(String(b.departureDate));
-      return byDate !== 0 ? byDate : String(a.time).localeCompare(String(b.time));
+      if (byDate !== 0) return byDate;
+      return parseTime(a.time) - parseTime(b.time);
     });
   },
 
@@ -23,7 +35,7 @@ export const ridesService = {
     return ride;
   },
 
-  async createRide(payload) {
+  async createRide(payload, user) {
     const missing = REQUIRED_FIELDS.filter((field) => payload[field] === undefined);
     if (missing.length) {
       throw new ApiError(400, `Missing required field(s): ${missing.join(', ')}`);
@@ -40,7 +52,7 @@ export const ridesService = {
     }
 
     return store.createRide({
-      driverId: payload.driverId ?? null,
+      driverId: user?.id ?? payload.driverId ?? null,
       driver: payload.driver ?? { name: 'Unknown', tag: 'UIU Student', rating: null },
       from: normalizePlace(payload.from),
       to: normalizePlace(payload.to),
@@ -63,6 +75,18 @@ export const ridesService = {
    */
   async joinRide(id, user) {
     const ride = await this.getRide(id); // 404 if the ride does not exist at all
+
+    if (user?.id) {
+      if (ride.driverId === user.id) {
+        throw new ApiError(403, 'You cannot join your own ride');
+      }
+
+      // Check if user already joined this ride
+      const existingTrips = await store.findTripsByUser(user.id, 'upcoming');
+      if (existingTrips.some(t => t.rideId === id)) {
+        throw new ApiError(409, 'You have already joined this ride');
+      }
+    }
 
     const updated = await store.decrementSeat(id);
     if (!updated) throw new ApiError(409, 'This ride is already full');

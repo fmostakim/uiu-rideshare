@@ -191,6 +191,13 @@ export const memoryStore = {
     return rides[index];
   },
 
+  async incrementSeat(id) {
+    const index = rides.findIndex((ride) => ride.id === id);
+    if (index === -1) return null;
+    rides[index] = { ...rides[index], seatsAvailable: rides[index].seatsAvailable + 1 };
+    return rides[index];
+  },
+
   // ---- users ----
   async findUserByStudentId(studentId) {
     return users.find((user) => user.studentId === studentId) ?? null;

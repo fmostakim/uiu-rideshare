@@ -12,7 +12,7 @@ export const ridesController = {
   },
 
   async create(req, res) {
-    const ride = await ridesService.createRide(req.body);
+    const ride = await ridesService.createRide(req.body, req.user);
     res.status(201).json({ ride });
   },
 

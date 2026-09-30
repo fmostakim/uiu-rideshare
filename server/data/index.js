@@ -41,6 +41,7 @@ const METHODS = [
   'createRide',
   'updateRide',
   'decrementSeat',
+  'incrementSeat',
   'findUserByStudentId',
   'findUserById',
   'createUser',

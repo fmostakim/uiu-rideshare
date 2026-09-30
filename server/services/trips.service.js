@@ -38,6 +38,10 @@ export const tripsService = {
       throw new ApiError(409, 'Only upcoming trips can be cancelled');
     }
 
+    if (trip.rideId) {
+      await store.incrementSeat(trip.rideId);
+    }
+
     return store.updateTrip(tripId, {
       status: 'cancelled',
       note: 'Cancelled by you',

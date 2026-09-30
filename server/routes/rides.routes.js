@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ridesController } from '../controllers/rides.controller.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { optionalAuth } from '../middleware/auth.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -12,7 +12,7 @@ const router = Router();
 
 router.get('/', asyncHandler(ridesController.list));
 router.get('/:id', asyncHandler(ridesController.getOne));
-router.post('/', asyncHandler(ridesController.create));
-router.post('/:id/join', optionalAuth, asyncHandler(ridesController.join));
+router.post('/', requireAuth, asyncHandler(ridesController.create));
+router.post('/:id/join', requireAuth, asyncHandler(ridesController.join));
 
 export default router;
