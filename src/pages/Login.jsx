@@ -8,14 +8,21 @@ import { logo } from '../assets/images';
 
 export default function Login() {
   const [role, setRole] = useState('passenger'); // 'passenger' | 'driver'
-  const [studentId, setStudentId] = useState('');
-  const [password, setPassword] = useState('');
+  const [studentId, setStudentId] = useState('0112330002');
+  const [password, setPassword] = useState('password123');
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleRoleChange = (newRole) => {
+    setRole(newRole);
+    // Auto-fill test accounts from seed data for easy login during presentation
+    setStudentId(newRole === 'driver' ? '0112330001' : '0112330002');
+    setPassword('password123');
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,7 +55,7 @@ export default function Login() {
         <div className="mt-6 flex rounded-lg border border-[#e4beb9] bg-brand-bg p-[5px]">
           <button
             type="button"
-            onClick={() => setRole('passenger')}
+            onClick={() => handleRoleChange('passenger')}
             className={`flex-1 rounded-md px-4 py-2 font-body text-sm font-semibold transition-colors ${
               role === 'passenger' ? 'bg-brand-red-dark text-white' : 'text-brand-text'
             }`}
@@ -57,7 +64,7 @@ export default function Login() {
           </button>
           <button
             type="button"
-            onClick={() => setRole('driver')}
+            onClick={() => handleRoleChange('driver')}
             className={`flex-1 rounded-md px-4 py-2 font-body text-sm font-semibold transition-colors ${
               role === 'driver' ? 'bg-brand-red-dark text-white' : 'text-brand-text'
             }`}
