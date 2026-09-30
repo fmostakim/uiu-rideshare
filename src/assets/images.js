@@ -1,36 +1,49 @@
-// NOTE: these are temporary asset URLs exported from Figma's MCP server.
-// They expire ~7 days after export. Before shipping, download each one and
-// swap the URL below for a local import (e.g. `import logo from './logo.png'`).
+// All icons are inline SVGs (never expire).
+// Photos use Unsplash / UI-Avatars (free, no-auth CDNs).
 
-export const logo =
-  'https://www.figma.com/api/mcp/asset/445fa2e4-48be-49e9-9c6d-ee372b4c8ece.png';
+const ico = (path, vb = '0 0 24 24', extra = '') =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" ${extra}>${path}</svg>`
+  )}`;
 
+// ── Logo ──────────────────────────────────────────────────────────────────────
+export const logo = ico(
+  `<rect width="68" height="68" rx="10" fill="#b7131a"/>` +
+  `<text x="34" y="46" font-family="Arial,sans-serif" font-weight="bold" ` +
+  `fill="white" font-size="22" text-anchor="middle">UIU</text>`,
+  '0 0 68 68'
+);
+
+// ── Avatars (UI-Avatars API) ──────────────────────────────────────────────────
 export const avatarSafety1 =
-  'https://www.figma.com/api/mcp/asset/f523229f-9699-4e67-84dd-f6013cd88a9f.png';
-
+  'https://ui-avatars.com/api/?name=Rahat+S&background=b7131a&color=fff&size=200&rounded=true&bold=true';
 export const avatarSafety2 =
-  'https://www.figma.com/api/mcp/asset/83f990c1-8196-423b-afd5-7ae79c3437a8.png';
-
+  'https://ui-avatars.com/api/?name=Nadia+K&background=27313f&color=fff&size=200&rounded=true&bold=true';
 export const avatarSafety3 =
-  'https://www.figma.com/api/mcp/asset/ff9a96a2-927e-4e4d-b9c2-a1fe7315009f.png';
+  'https://ui-avatars.com/api/?name=Fahim+M&background=1d4ed8&color=fff&size=200&rounded=true&bold=true';
 
-export const mapPreview =
-  'https://www.figma.com/api/mcp/asset/9c98c6b3-9793-44cd-a102-6d8637e1eb9b.png';
-
+// ── Photos (Unsplash) ─────────────────────────────────────────────────────────
 export const heroBackground =
-  'https://www.figma.com/api/mcp/asset/7547a62e-508a-473b-93e8-ec966307c489.png';
+  'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80';
+export const mapPreview =
+  'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80';
 
-export const iconArrow =
-  'https://www.figma.com/api/mcp/asset/dd4c05c4-44e2-4270-a3a5-19ed9e49e1a7.svg';
+// ── Icons ─────────────────────────────────────────────────────────────────────
+const S = 'stroke="#b7131a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"';
+const SW = 'stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"';
 
-export const iconShield =
-  'https://www.figma.com/api/mcp/asset/986949db-db6b-47c3-820a-e0dae3bfc46e.svg';
-
-export const iconWallet =
-  'https://www.figma.com/api/mcp/asset/bfa0b070-cadb-4bbf-b5f1-c62f0887ec0a.svg';
-
-export const iconPin =
-  'https://www.figma.com/api/mcp/asset/703cc206-8a03-4069-8c7c-64950d397d45.svg';
-
-export const iconChevron =
-  'https://www.figma.com/api/mcp/asset/a3cd5413-a2b1-46de-9c24-5d48b58ba0bf.svg';
+export const iconArrow = ico(
+  `<path ${SW} d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>`
+);
+export const iconShield = ico(
+  `<path ${S} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>`
+);
+export const iconWallet = ico(
+  `<path ${S} d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3"/>`
+);
+export const iconPin = ico(
+  `<path ${S} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path ${S} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>`
+);
+export const iconChevron = ico(
+  `<path ${S} d="M8.25 4.5l7.5 7.5-7.5 7.5"/>`
+);

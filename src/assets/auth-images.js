@@ -1,25 +1,46 @@
-export const authBackground =
-  'https://www.figma.com/api/mcp/asset/5a469a5e-0a99-4cc9-80cc-6e54dbdf1ee7.png';
+const ico = (path, vb = '0 0 24 24') =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${path}</svg>`
+  )}`;
 
-export const iconUser =
-  'https://www.figma.com/api/mcp/asset/bf22c193-a0c6-4a34-acc7-0931916ebcb0.svg';
-export const iconIdCard =
-  'https://www.figma.com/api/mcp/asset/61d16103-eeab-449b-8ed1-54bc0cde6c46.svg';
-export const iconPhone =
-  'https://www.figma.com/api/mcp/asset/b9838f37-66fe-4346-96a2-001a8bc44ac5.svg';
-export const iconMail =
-  'https://www.figma.com/api/mcp/asset/a9f826b4-4e4a-4edf-9072-aa4ec08c90c0.svg';
-export const iconCar =
-  'https://www.figma.com/api/mcp/asset/5c6d7870-2233-4408-bd58-bf10e6cc880c.svg';
-export const iconPlate =
-  'https://www.figma.com/api/mcp/asset/c48c78a2-f658-4842-804b-af1325316fbe.svg';
-export const iconLock =
-  'https://www.figma.com/api/mcp/asset/ce08e8af-7205-4496-9bce-666bfe7b060f.svg';
-export const iconLockConfirm =
-  'https://www.figma.com/api/mcp/asset/09c9ea3d-5eb3-4fe8-85af-bc4c12814a73.svg';
-export const iconEye =
-  'https://www.figma.com/api/mcp/asset/397c632c-f351-4c8b-9bc7-ebbb456a0c42.svg';
-export const iconChevronDown =
-  'https://www.figma.com/api/mcp/asset/27cdc054-1945-4282-9513-693ad0ab80c8.svg';
-export const iconGraduationCap =
-  'https://www.figma.com/api/mcp/asset/299f9289-d440-481a-8106-d14d2a4397e6.svg';
+const S = (c = '#6b7280') =>
+  `stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+
+// ── Auth background (Unsplash) ────────────────────────────────────────────────
+export const authBackground =
+  'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=900&q=80';
+
+// ── Form icons ────────────────────────────────────────────────────────────────
+export const iconUser = ico(
+  `<path ${S()} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>`
+);
+export const iconIdCard = ico(
+  `<path ${S()} d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"/>`
+);
+export const iconPhone = ico(
+  `<path ${S()} d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>`
+);
+export const iconMail = ico(
+  `<path ${S()} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>`
+);
+export const iconCar = ico(
+  `<path ${S()} d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>`
+);
+export const iconPlate = ico(
+  `<rect x="3" y="7" width="18" height="10" rx="2" ${S()}/><text x="12" y="15" font-size="6" text-anchor="middle" fill="#6b7280" font-family="Arial">PLATE</text>`
+);
+export const iconLock = ico(
+  `<path ${S()} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>`
+);
+export const iconLockConfirm = ico(
+  `<path ${S('#b7131a')} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>`
+);
+export const iconEye = ico(
+  `<path ${S()} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path ${S()} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>`
+);
+export const iconChevronDown = ico(
+  `<path ${S()} d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>`
+);
+export const iconGraduationCap = ico(
+  `<path ${S()} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>`
+);

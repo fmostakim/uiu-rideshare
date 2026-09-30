@@ -1,22 +1,69 @@
-const prefix = 'https://www.figma.com/api/mcp/asset/176ed488-5d8f-4435-aaba-6b0b006a123c';
+const ico = (path, vb = '0 0 24 24') =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${path}</svg>`
+  )}`;
 
-export const mapRoutePreview = `${prefix}/f5ee2.png`;
+const S  = (c = '#374151') =>
+  `stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+const SF = (c) => `fill="${c}"`;
 
-export const iconCar = `${prefix}/13765.svg`;
-export const iconBike = `${prefix}/b5839.svg`;
-export const iconScooter = `${prefix}/33057.svg`;
-export const iconVan = `${prefix}/45d4f.svg`;
+// ── Map preview (Unsplash aerial city) ───────────────────────────────────────
+export const mapRoutePreview =
+  'https://images.unsplash.com/photo-1476044800831-f8b93c93f4bc?w=700&q=80';
 
-export const iconPickup = `${prefix}/653a2.svg`;
-export const iconDestination = `${prefix}/55b8d.svg`;
-export const iconDate = `${prefix}/b5801.svg`;
-export const iconTime = `${prefix}/c6e18.svg`;
-export const iconSeats = `${prefix}/42400.svg`;
-export const iconPrice = `${prefix}/893a1.svg`;
-export const iconPublish = `${prefix}/3dfe7.svg`;
+// ── Vehicle type icons ───────────────────────────────────────────────────────
+export const iconCar = ico(
+  `<path ${S()} d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>`
+);
+export const iconBike = ico(
+  `<path ${S()} d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"/>`,
+  '0 0 24 24'
+);
+export const iconScooter = ico(
+  `<circle cx="7" cy="17" r="3" ${S()}/><circle cx="17" cy="17" r="3" ${S()}/><path ${S()} d="M7 17h6l2-6h4M11 17l2-6"/>`
+);
+export const iconVan = ico(
+  `<path ${S()} d="M1.5 11.25l1.5-4.5h15l1.5 4.5M1.5 11.25v6.75h1.5m15 0h1.5v-6.75M1.5 11.25h18M6 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm12 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>`
+);
 
-export const iconTipSafety = `${prefix}/2be77.svg`;
-export const iconTipGreen = `${prefix}/b43de.svg`;
-export const iconListVerified = `${prefix}/b032a.svg`;
-export const iconListCost = `${prefix}/15264.svg`;
-export const iconListNetwork = `${prefix}/8b51d.svg`;
+// ── Form field icons ──────────────────────────────────────────────────────────
+export const iconPickup = ico(
+  `<path ${S('#b7131a')} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path ${S('#b7131a')} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>`
+);
+export const iconDestination = ico(
+  `<path ${S()} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path ${S()} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>`
+);
+export const iconDate = ico(
+  `<path ${S()} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>`
+);
+export const iconTime = ico(
+  `<path ${S()} d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>`
+);
+export const iconSeats = ico(
+  `<path ${S()} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>`
+);
+export const iconPrice = ico(
+  `<path ${S()} d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>`
+);
+export const iconPublish = ico(
+  `<path ${S('white')} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>`
+);
+
+// ── Tip cards ────────────────────────────────────────────────────────────────
+export const iconTipSafety = ico(
+  `<path ${S('#b7131a')} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>`
+);
+export const iconTipGreen = ico(
+  `<path ${S('#15803d')} d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 01-1.161.886l-.143.048a1.107 1.107 0 00-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 01-1.652.928l-.679-.906a1.125 1.125 0 00-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 00-8.862 12.872M12.75 3.031a9 9 0 016.69 14.036m0 0l-.177-.529A2.25 2.25 0 0017.128 15H16.5l-.324-.324a1.453 1.453 0 00-2.328.377l-.036.073a1.586 1.586 0 01-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 01-5.276 3.67m0 0a9 9 0 01-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"/>`
+);
+
+// ── Benefit list icons ───────────────────────────────────────────────────────
+export const iconListVerified = ico(
+  `<path ${SF('#22c55e')} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>`
+);
+export const iconListCost = ico(
+  `<path ${SF('#f59e0b')} d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>`
+);
+export const iconListNetwork = ico(
+  `<path ${SF('#60a5fa')} d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>`
+);
