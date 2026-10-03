@@ -53,18 +53,29 @@ export default function FindRide() {
     setFilters({});
   };
 
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleJoin = async (rideId) => {
     try {
       await api.joinRide(rideId);
+      setSuccessMessage('Ride booked successfully! Check My Trips.');
+      setTimeout(() => setSuccessMessage(''), 4000);
       refetch();
     } catch (err) {
       console.error(err);
+      alert(err.message || 'Failed to join ride');
     }
   };
 
   return (
-    <div className="min-h-screen bg-brand-bg">
+    <div className="min-h-screen bg-brand-bg relative">
       <AppNavbar />
+
+      {successMessage && (
+        <div className="fixed top-24 left-1/2 z-50 -translate-x-1/2 rounded-full bg-green-500 px-6 py-3 font-body text-sm font-semibold text-white shadow-lg transition-all animate-bounce">
+          {successMessage}
+        </div>
+      )}
 
       <main className="mx-auto flex max-w-[1700px] items-start gap-6 px-12 py-12">
         {/* Sidebar filters */}
