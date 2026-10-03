@@ -5,10 +5,12 @@ import { api } from '../api/client';
 
 export default function Messages() {
   const { user } = useAuth();
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [messageText, setMessageText] = useState('');
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const selectedChat = conversations.find(c => c.id === selectedChatId) || null;
 
   const fetchConversations = async () => {
     try {
@@ -19,11 +21,10 @@ export default function Messages() {
       
       let allConvos = [...data];
       
-      // If a chat was requested via URL but isn't in history yet, add a temporary local convo
       if (startChatId && !allConvos.find(c => c.id === startChatId)) {
         allConvos.unshift({
           id: startChatId,
-          name: 'New Chat', // Ideally we'd fetch their name, but this is enough to start
+          name: 'New Chat',
           initials: '?',
           lastMessage: 'Start a conversation...',
           time: 'Now',
@@ -34,13 +35,8 @@ export default function Messages() {
       
       setConversations(allConvos);
       
-      if (selectedChat) {
-        const updated = allConvos.find(c => c.id === selectedChat.id);
-        if (updated) setSelectedChat(updated);
-      } else if (startChatId) {
-        const toSelect = allConvos.find(c => c.id === startChatId);
-        if (toSelect) setSelectedChat(toSelect);
-        // Clear URL without refreshing
+      if (startChatId) {
+        setSelectedChatId(startChatId);
         window.history.replaceState({}, '', '/messages');
       }
     } catch (err) {
@@ -52,16 +48,16 @@ export default function Messages() {
 
   useEffect(() => {
     fetchConversations();
-    const interval = setInterval(fetchConversations, 5000); // Polling every 5s for new messages
+    const interval = setInterval(fetchConversations, 5000); 
     return () => clearInterval(interval);
-  }, [selectedChat]);
+  }, []);
 
   const handleSelectChat = async (convo) => {
-    setSelectedChat(convo);
+    setSelectedChatId(convo.id);
     if (convo.unread > 0) {
       try {
         await api.markMessagesRead(convo.id);
-        fetchConversations(); // refresh unread counts
+        fetchConversations();
       } catch (err) {
         console.error(err);
       }
@@ -70,21 +66,21 @@ export default function Messages() {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!messageText.trim() || !selectedChat) return;
+    if (!messageText.trim() || !selectedChatId) return;
     
     const text = messageText.trim();
     setMessageText('');
     
-    // Optimistic UI update
     const optimisticTime = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' });
-    const optimisticChat = {
-      ...selectedChat,
-      messages: [...(selectedChat.messages || []), { text, isMine: true, time: optimisticTime }]
-    };
-    setSelectedChat(optimisticChat);
+    
+    setConversations(prev => prev.map(c => 
+      c.id === selectedChatId 
+        ? { ...c, messages: [...(c.messages || []), { text, isMine: true, time: optimisticTime }] }
+        : c
+    ));
     
     try {
-      await api.sendMessage(selectedChat.id, text);
+      await api.sendMessage(selectedChatId, text);
       fetchConversations();
     } catch (err) {
       console.error('Failed to send message:', err);
