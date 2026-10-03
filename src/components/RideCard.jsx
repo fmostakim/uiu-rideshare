@@ -86,14 +86,27 @@ export default function RideCard({ ride, onJoin }) {
           <div className="h-2 overflow-hidden rounded-full bg-[#e6eeff]">
             <div className="h-full rounded-full bg-brand-red" style={{ width: `${filledPercent}%` }} />
           </div>
-          <button
-            type="button"
-            onClick={onJoin}
-            disabled={ride.seatsAvailable < 1}
-            className="w-full rounded-lg bg-brand-red py-3 font-body text-base font-semibold text-white shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.1),0px_2px_4px_-2px_rgba(0,0,0,0.1)] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {ride.seatsAvailable < 1 ? 'Ride Full' : 'Join Ride'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                // We could dispatch an event or use context, but simplest is to redirect with state
+                window.location.href = `/messages?startChat=${ride.driverId}`;
+              }}
+              className="flex-1 rounded-lg border border-brand-red bg-white py-3 font-body text-base font-semibold text-brand-red shadow-sm transition-colors hover:bg-brand-red hover:text-white"
+            >
+              Message
+            </button>
+            <button
+              type="button"
+              onClick={onJoin}
+              disabled={ride.seatsAvailable < 1}
+              className="flex-1 rounded-lg bg-brand-red py-3 font-body text-base font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {ride.seatsAvailable < 1 ? 'Full' : 'Join'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

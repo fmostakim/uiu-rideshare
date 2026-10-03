@@ -155,4 +155,28 @@ export const mongoStore = {
       .findOneAndUpdate({ _id }, { $set: changes }, { returnDocument: 'after' });
     return serialize(result?.value ?? result);
   },
+
+  // ---- messages ----
+  async findMessages(userId) {
+    const db = await getDb();
+    const docs = await db.collection('messages').find({
+      $or: [{ senderId: userId }, { receiverId: userId }]
+    }).toArray();
+    return docs.map(serialize);
+  },
+
+  async createMessage(payload) {
+    const db = await getDb();
+    const doc = { ...payload, createdAt: new Date().toISOString() };
+    const result = await db.collection('messages').insertOne(doc);
+    return serialize({ _id: result.insertedId, ...doc });
+  },
+
+  async markMessagesAsRead(senderId, receiverId) {
+    const db = await getDb();
+    await db.collection('messages').updateMany(
+      { senderId, receiverId, read: false },
+      { $set: { read: true } }
+    );
+  }
 };

@@ -52,4 +52,9 @@ export const api = {
   getTrips: (status) => request(`/trips${toQuery({ status })}`),
   getTripSummary: () => request('/trips/summary'),
   cancelTrip: (id) => request(`/trips/${id}/cancel`, { method: 'POST' }),
+
+  // messages
+  getConversations: () => request('/messages'),
+  sendMessage: (receiverId, text) => request('/messages', { method: 'POST', body: { receiverId, text } }),
+  markMessagesRead: (partnerId) => request(`/messages/${partnerId}/read`, { method: 'POST' }),
 };

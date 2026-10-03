@@ -48,6 +48,9 @@ const METHODS = [
   'findTripsByUser',
   'createTrip',
   'updateTrip',
+  'findMessages',
+  'createMessage',
+  'markMessagesAsRead',
 ];
 
 /**

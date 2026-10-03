@@ -11,6 +11,8 @@
 
 let rideIdCounter = 3;
 let tripIdCounter = 6;
+let messageIdCounter = 1;
+const messages = [];
 
 const users = [
   {
@@ -237,4 +239,23 @@ export const memoryStore = {
     trips[index] = { ...trips[index], ...changes };
     return trips[index];
   },
+
+  // ---- messages ----
+  async findMessages(userId) {
+    return messages.filter(m => m.senderId === userId || m.receiverId === userId);
+  },
+
+  async createMessage(payload) {
+    const msg = { id: `m${messageIdCounter++}`, ...payload, createdAt: new Date().toISOString() };
+    messages.push(msg);
+    return msg;
+  },
+
+  async markMessagesAsRead(senderId, receiverId) {
+    messages.forEach(m => {
+      if (m.senderId === senderId && m.receiverId === receiverId && !m.read) {
+        m.read = true;
+      }
+    });
+  }
 };

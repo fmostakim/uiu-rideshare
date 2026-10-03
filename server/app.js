@@ -5,6 +5,7 @@ import 'dotenv/config';
 import ridesRoutes from './routes/rides.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import tripsRoutes from './routes/trips.routes.js';
+import { messagesRouter } from './routes/messages.routes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { usingMongo } from './data/index.js';
 
@@ -27,6 +28,7 @@ export function createApp() {
   app.use('/api/rides', ridesRoutes);
   app.use('/api/auth', authRoutes);
   app.use('/api/trips', tripsRoutes);
+  app.use('/api/messages', messagesRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

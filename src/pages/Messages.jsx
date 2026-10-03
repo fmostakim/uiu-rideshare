@@ -1,38 +1,94 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppNavbar from '../components/AppNavbar';
 import { useAuth } from '../context/AuthContext';
-
-const SAMPLE_CONVERSATIONS = [
-  {
-    id: 'c1',
-    name: 'Rahat S.',
-    lastMessage: "I'll be at the gate by 9:25 AM.",
-    time: '9:12 AM',
-    unread: 2,
-    initials: 'RS',
-  },
-  {
-    id: 'c2',
-    name: 'Fahim M.',
-    lastMessage: 'Can you wait 5 minutes? Almost there.',
-    time: 'Yesterday',
-    unread: 0,
-    initials: 'FM',
-  },
-  {
-    id: 'c3',
-    name: 'Nadia K.',
-    lastMessage: 'Thanks for the ride! 😊',
-    time: 'Sep 28',
-    unread: 0,
-    initials: 'NK',
-  },
-];
+import { api } from '../api/client';
 
 export default function Messages() {
   const { user } = useAuth();
   const [selectedChat, setSelectedChat] = useState(null);
   const [messageText, setMessageText] = useState('');
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchConversations = async () => {
+    try {
+      const data = await api.getConversations();
+      
+      const searchParams = new URLSearchParams(window.location.search);
+      const startChatId = searchParams.get('startChat');
+      
+      let allConvos = [...data];
+      
+      // If a chat was requested via URL but isn't in history yet, add a temporary local convo
+      if (startChatId && !allConvos.find(c => c.id === startChatId)) {
+        allConvos.unshift({
+          id: startChatId,
+          name: 'New Chat', // Ideally we'd fetch their name, but this is enough to start
+          initials: '?',
+          lastMessage: 'Start a conversation...',
+          time: 'Now',
+          unread: 0,
+          messages: []
+        });
+      }
+      
+      setConversations(allConvos);
+      
+      if (selectedChat) {
+        const updated = allConvos.find(c => c.id === selectedChat.id);
+        if (updated) setSelectedChat(updated);
+      } else if (startChatId) {
+        const toSelect = allConvos.find(c => c.id === startChatId);
+        if (toSelect) setSelectedChat(toSelect);
+        // Clear URL without refreshing
+        window.history.replaceState({}, '', '/messages');
+      }
+    } catch (err) {
+      console.error('Failed to load conversations:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchConversations();
+    const interval = setInterval(fetchConversations, 5000); // Polling every 5s for new messages
+    return () => clearInterval(interval);
+  }, [selectedChat]);
+
+  const handleSelectChat = async (convo) => {
+    setSelectedChat(convo);
+    if (convo.unread > 0) {
+      try {
+        await api.markMessagesRead(convo.id);
+        fetchConversations(); // refresh unread counts
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!messageText.trim() || !selectedChat) return;
+    
+    const text = messageText.trim();
+    setMessageText('');
+    
+    // Optimistic UI update
+    const optimisticChat = {
+      ...selectedChat,
+      messages: [...(selectedChat.messages || []), { text, isMine: true, time: 'Just now' }]
+    };
+    setSelectedChat(optimisticChat);
+    
+    try {
+      await api.sendMessage(selectedChat.id, text);
+      fetchConversations();
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-brand-bg">
@@ -50,13 +106,19 @@ export default function Messages() {
           {/* Conversation list */}
           <div className="flex flex-col gap-2 rounded-xl border border-brand-panel bg-white p-4 shadow-[0px_4px_6px_rgba(0,0,0,0.05)] h-[600px] overflow-y-auto">
             <h2 className="mb-2 font-display text-lg font-semibold text-brand-ink">Conversations</h2>
-            {SAMPLE_CONVERSATIONS.map((convo) => {
+            {loading && conversations.length === 0 && (
+              <p className="text-center font-body text-sm text-brand-text py-10">Loading...</p>
+            )}
+            {!loading && conversations.length === 0 && (
+              <p className="text-center font-body text-sm text-brand-text py-10">No messages yet.</p>
+            )}
+            {conversations.map((convo) => {
               const isSelected = selectedChat?.id === convo.id;
               return (
                 <button
                   key={convo.id}
                   type="button"
-                  onClick={() => setSelectedChat(convo)}
+                  onClick={() => handleSelectChat(convo)}
                   className={`flex items-center gap-4 rounded-lg p-3 text-left transition-colors ${
                     isSelected ? 'bg-[#f5f5f5]' : 'hover:bg-[#f5f5f5]'
                   }`}
@@ -117,25 +179,25 @@ export default function Messages() {
                 
                 {/* Chat Messages */}
                 <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-[#fafafa]">
-                  {/* Fake incoming message */}
-                  <div className="flex items-start gap-3">
-                     <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-red font-display text-xs font-bold text-white">
-                      {selectedChat.initials}
-                    </span>
-                    <div className="rounded-xl rounded-tl-none bg-white p-3 border border-[#f0f0f0] shadow-sm max-w-[75%]">
-                      <p className="font-body text-sm text-brand-ink">{selectedChat.lastMessage}</p>
-                      <span className="block mt-1 text-right text-[10px] text-brand-text">{selectedChat.time}</span>
-                    </div>
-                  </div>
-
-                  {/* Appended User Messages */}
-                  {(selectedChat.userMessages || []).map((msg, idx) => (
-                    <div key={idx} className="flex items-start justify-end gap-3">
-                      <div className="rounded-xl rounded-tr-none bg-brand-red text-white p-3 shadow-sm max-w-[75%]">
-                        <p className="font-body text-sm">{msg}</p>
-                        <span className="block mt-1 text-right text-[10px] text-white/80">Just now</span>
+                  {(selectedChat.messages || []).map((msg, idx) => (
+                    msg.isMine ? (
+                      <div key={idx} className="flex items-start justify-end gap-3">
+                        <div className="rounded-xl rounded-tr-none bg-brand-red text-white p-3 shadow-sm max-w-[75%]">
+                          <p className="font-body text-sm">{msg.text}</p>
+                          <span className="block mt-1 text-right text-[10px] text-white/80">{msg.time}</span>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div key={idx} className="flex items-start gap-3">
+                         <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#dee9fc] font-display text-xs font-bold text-brand-ink">
+                          {selectedChat.initials}
+                        </span>
+                        <div className="rounded-xl rounded-tl-none bg-white p-3 border border-[#f0f0f0] shadow-sm max-w-[75%]">
+                          <p className="font-body text-sm text-brand-ink">{msg.text}</p>
+                          <span className="block mt-1 text-right text-[10px] text-brand-text">{msg.time}</span>
+                        </div>
+                      </div>
+                    )
                   ))}
                 </div>
 
