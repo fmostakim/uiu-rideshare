@@ -24,6 +24,7 @@ async function seed() {
     collections.users(db).deleteMany({}),
     collections.rides(db).deleteMany({}),
     collections.trips(db).deleteMany({}),
+    db.collection('messages').deleteMany({}),
   ]);
   console.log('Cleared existing collections');
 
@@ -56,7 +57,7 @@ async function seed() {
   const passengerId = insertedIds[1].toString();
   console.log('Inserted 2 users');
 
-  await collections.rides(db).insertMany([
+  const insertedRides = await collections.rides(db).insertMany([
     {
       driverId,
       driver: { name: 'Rahat S.', tag: 'CS Senior', rating: '4.9' },
@@ -80,15 +81,75 @@ async function seed() {
       departureDate: '2026-09-06',
       time: '05:45 PM',
       vehicle: 'Honda Civic (White)',
-      genderPreference: 'Mixed Gender',
-      acOn: false,
+      genderPreference: 'Male Only',
+      acOn: true,
       price: 80,
       seatsAvailable: 3,
       totalSeats: 4,
       createdAt: new Date().toISOString(),
     },
+    {
+      driverId: passengerId,
+      driver: { name: 'Nadia K.', tag: 'BBA Junior', rating: '5.0' },
+      from: { name: 'UIU Main Campus', detail: 'Gate 2' },
+      to: { name: 'Dhanmondi 27', detail: 'Plaza AR' },
+      departureDate: '2026-09-07',
+      time: '01:15 PM',
+      vehicle: 'Scooter',
+      genderPreference: 'Female Only',
+      acOn: false,
+      price: 100,
+      seatsAvailable: 1,
+      totalSeats: 1,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      driverId,
+      driver: { name: 'Rahat S.', tag: 'CS Senior', rating: '4.9' },
+      from: { name: 'Badda Link Road', detail: 'Near Gulshan 1' },
+      to: { name: 'UIU Main Gate', detail: 'Madani Ave' },
+      departureDate: '2026-09-08',
+      time: '08:00 AM',
+      vehicle: 'Bike',
+      genderPreference: 'Male Only',
+      acOn: false,
+      price: 40,
+      seatsAvailable: 1,
+      totalSeats: 1,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      driverId: passengerId,
+      driver: { name: 'Anika R.', tag: 'CSE Faculty', rating: '4.8' },
+      from: { name: 'Mirpur 10', detail: 'Metro Station' },
+      to: { name: 'UIU Main Campus', detail: 'Faculty Parking' },
+      departureDate: '2026-09-09',
+      time: '07:30 AM',
+      vehicle: 'Toyota Aqua (Silver)',
+      genderPreference: 'Mixed Gender',
+      acOn: true,
+      price: 120,
+      seatsAvailable: 4,
+      totalSeats: 4,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      driverId,
+      driver: { name: 'Tanvir H.', tag: 'Masters Student', rating: '4.5' },
+      from: { name: 'UIU Main Campus', detail: 'United City' },
+      to: { name: 'Mohakhali DOHS', detail: 'Gate 1' },
+      departureDate: '2026-09-10',
+      time: '06:30 PM',
+      vehicle: 'Noah Microbus',
+      genderPreference: 'Mixed Gender',
+      acOn: true,
+      price: 60,
+      seatsAvailable: 6,
+      totalSeats: 6,
+      createdAt: new Date().toISOString(),
+    }
   ]);
-  console.log('Inserted 2 rides');
+  console.log('Inserted 6 rides');
 
   await collections.trips(db).insertMany([
     {
@@ -101,6 +162,7 @@ async function seed() {
       role: 'passenger',
       withPerson: 'Rahat S.',
       price: '৳50',
+      rideId: insertedRides.insertedIds[0].toString(),
     },
     {
       userId: passengerId,
@@ -112,6 +174,7 @@ async function seed() {
       role: 'passenger',
       withPerson: 'Fahim M.',
       price: '৳80',
+      rideId: insertedRides.insertedIds[1].toString(),
     },
     {
       userId: passengerId,

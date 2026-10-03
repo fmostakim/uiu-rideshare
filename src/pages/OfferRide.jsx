@@ -63,6 +63,7 @@ export default function OfferRide() {
     time: '',
     seats: 1,
     price: '',
+    genderPreference: 'Mixed Gender',
     notes: '',
   });
   const [error, setError] = useState(null);
@@ -94,7 +95,7 @@ export default function OfferRide() {
         departureDate: form.date,
         time: formatTime(form.time),
         vehicle,
-        genderPreference: 'Mixed Gender',
+        genderPreference: form.genderPreference,
         acOn: vehicle === 'Car' || vehicle === 'Van',
         price: Number(form.price),
         totalSeats: Number(form.seats),
@@ -257,6 +258,20 @@ export default function OfferRide() {
                 </span>
               </label>
             </div>
+
+            {/* Gender Preference */}
+            <label className="flex flex-col gap-1">
+              <FieldLabel>Gender Preference</FieldLabel>
+              <select
+                value={form.genderPreference}
+                onChange={update('genderPreference')}
+                className="w-full rounded-lg border border-[#e4beb9] bg-white px-4 py-3 font-body text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-red"
+              >
+                <option value="Mixed Gender">Mixed Gender (Anyone can join)</option>
+                <option value="Male Only">Male Only</option>
+                <option value="Female Only">Female Only</option>
+              </select>
+            </label>
 
             {/* Notes */}
             <label className="flex flex-col gap-1">
