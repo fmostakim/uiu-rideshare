@@ -205,15 +205,7 @@ export default function Messages() {
                 <div className="border-t border-brand-panel p-4 bg-white">
                   <form 
                     className="flex items-center gap-3"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (messageText.trim()) {
-                        // Mutate selected chat for presentation purposes
-                        selectedChat.userMessages = [...(selectedChat.userMessages || []), messageText.trim()];
-                        setSelectedChat({ ...selectedChat });
-                        setMessageText('');
-                      }
-                    }}
+                    onSubmit={handleSendMessage}
                   >
                     <input
                       type="text"
