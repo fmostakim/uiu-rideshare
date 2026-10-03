@@ -76,9 +76,10 @@ export default function Messages() {
     setMessageText('');
     
     // Optimistic UI update
+    const optimisticTime = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' });
     const optimisticChat = {
       ...selectedChat,
-      messages: [...(selectedChat.messages || []), { text, isMine: true, time: 'Just now' }]
+      messages: [...(selectedChat.messages || []), { text, isMine: true, time: optimisticTime }]
     };
     setSelectedChat(optimisticChat);
     

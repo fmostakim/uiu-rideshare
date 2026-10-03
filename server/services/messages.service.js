@@ -24,10 +24,12 @@ export const messagesService = {
       const lastMsg = msgs[msgs.length - 1];
       
       const d = new Date(lastMsg.createdAt);
-      const isToday = new Date().toDateString() === d.toDateString();
+      const nowInDhaka = new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka' });
+      const msgDateInDhaka = d.toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka' });
+      const isToday = nowInDhaka === msgDateInDhaka;
       const timeStr = isToday 
-        ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        ? d.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' })
+        : d.toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka', month: 'short', day: 'numeric' });
 
       const unreadCount = msgs.filter(m => m.receiverId === userId && !m.read).length;
 
@@ -41,7 +43,7 @@ export const messagesService = {
         messages: msgs.map(m => ({
           text: m.text,
           isMine: m.senderId === userId,
-          time: new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          time: new Date(m.createdAt).toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' }),
           rawTime: m.createdAt
         }))
       });
