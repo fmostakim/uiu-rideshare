@@ -12,7 +12,7 @@ export const ridesService = {
 
     const parseTime = (t) => {
       if (!t) return 0;
-      const match = String(t).match(/^(\d{2}):(\d{2})\s*(AM|PM)$/i);
+      const match = String(t).trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
       if (!match) return 0;
       let [_, h, m, p] = match;
       h = Number(h);

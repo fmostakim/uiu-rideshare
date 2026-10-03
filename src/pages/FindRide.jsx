@@ -124,7 +124,10 @@ export default function FindRide() {
                   <button
                     key={slot}
                     type="button"
-                    onClick={() => setTime(slot)}
+                    onClick={() => {
+                      setTime(slot);
+                      setFilters(prev => ({ ...prev, time: slot !== 'Anytime' ? slot : undefined }));
+                    }}
                     className={`rounded-lg border py-2 font-body text-sm ${
                       time === slot
                         ? 'border-brand-red bg-brand-red text-white'
@@ -142,7 +145,11 @@ export default function FindRide() {
               <div className="relative">
                 <select
                   value={gender}
-                  onChange={(e) => setGender(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setGender(val);
+                    setFilters(prev => ({ ...prev, genderPreference: val !== 'No Preference' ? val : undefined }));
+                  }}
                   className="w-full appearance-none rounded-lg bg-[#e6eeff] px-4 py-3 font-body text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-red"
                 >
                   {GENDER_OPTIONS.map((opt) => (
@@ -160,7 +167,10 @@ export default function FindRide() {
                   <button
                     key={opt}
                     type="button"
-                    onClick={() => setSeats(opt)}
+                    onClick={() => {
+                      setSeats(opt);
+                      setFilters(prev => ({ ...prev, minSeats: opt.replace('+', '') }));
+                    }}
                     className={`flex-1 rounded-lg py-2 font-body text-base font-semibold ${
                       seats === opt ? 'bg-brand-red text-white' : 'bg-[#e6eeff] text-brand-ink'
                     }`}
