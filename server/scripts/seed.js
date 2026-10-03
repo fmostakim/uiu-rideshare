@@ -51,15 +51,48 @@ async function seed() {
       password,
       createdAt: new Date().toISOString(),
     },
+    {
+      fullName: 'Fahim Mahmud',
+      studentId: '0112330003',
+      email: 'fmahmud3@bscse.uiu.ac.bd',
+      phone: '01722222222',
+      role: 'driver',
+      rating: 4.7,
+      password,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      fullName: 'Anika Rahman',
+      studentId: '0112330004',
+      email: 'arahman4@bscse.uiu.ac.bd',
+      phone: '01733333333',
+      role: 'driver',
+      rating: 4.8,
+      password,
+      createdAt: new Date().toISOString(),
+    },
+    {
+      fullName: 'Tanvir Hasan',
+      studentId: '0112330005',
+      email: 'thasan5@bscse.uiu.ac.bd',
+      phone: '01744444444',
+      role: 'driver',
+      rating: 4.5,
+      password,
+      createdAt: new Date().toISOString(),
+    }
   ]);
 
-  const driverId = insertedIds[0].toString();
-  const passengerId = insertedIds[1].toString();
-  console.log('Inserted 2 users');
+  const rahatId = insertedIds[0].toString();
+  const nadiaId = insertedIds[1].toString();
+  const fahimId = insertedIds[2].toString();
+  const anikaId = insertedIds[3].toString();
+  const tanvirId = insertedIds[4].toString();
+  console.log('Inserted 5 users');
 
   const insertedRides = await collections.rides(db).insertMany([
     {
-      driverId,
+      driverId: rahatId,
       driver: { name: 'Rahat S.', tag: 'CS Senior', rating: '4.9' },
       from: { name: 'UIU Main Gate', detail: 'United City, Madani Avenue' },
       to: { name: 'Banani 11', detail: 'Road 11, Block D' },
@@ -74,7 +107,7 @@ async function seed() {
       createdAt: new Date().toISOString(),
     },
     {
-      driverId,
+      driverId: fahimId,
       driver: { name: 'Fahim M.', tag: 'EEE Alumni', rating: '4.7' },
       from: { name: 'UIU Main Campus', detail: 'Parking Zone A' },
       to: { name: 'Uttara House Building', detail: 'Azampur Bus Stand' },
@@ -89,7 +122,7 @@ async function seed() {
       createdAt: new Date().toISOString(),
     },
     {
-      driverId: passengerId,
+      driverId: nadiaId,
       driver: { name: 'Nadia K.', tag: 'BBA Junior', rating: '5.0' },
       from: { name: 'UIU Main Campus', detail: 'Gate 2' },
       to: { name: 'Dhanmondi 27', detail: 'Plaza AR' },
@@ -104,7 +137,7 @@ async function seed() {
       createdAt: new Date().toISOString(),
     },
     {
-      driverId,
+      driverId: rahatId,
       driver: { name: 'Rahat S.', tag: 'CS Senior', rating: '4.9' },
       from: { name: 'Badda Link Road', detail: 'Near Gulshan 1' },
       to: { name: 'UIU Main Gate', detail: 'Madani Ave' },
@@ -119,7 +152,7 @@ async function seed() {
       createdAt: new Date().toISOString(),
     },
     {
-      driverId: passengerId,
+      driverId: anikaId,
       driver: { name: 'Anika R.', tag: 'CSE Faculty', rating: '4.8' },
       from: { name: 'Mirpur 10', detail: 'Metro Station' },
       to: { name: 'UIU Main Campus', detail: 'Faculty Parking' },
@@ -134,7 +167,7 @@ async function seed() {
       createdAt: new Date().toISOString(),
     },
     {
-      driverId,
+      driverId: tanvirId,
       driver: { name: 'Tanvir H.', tag: 'Masters Student', rating: '4.5' },
       from: { name: 'UIU Main Campus', detail: 'United City' },
       to: { name: 'Mohakhali DOHS', detail: 'Gate 1' },
@@ -153,7 +186,7 @@ async function seed() {
 
   await collections.trips(db).insertMany([
     {
-      userId: passengerId,
+      userId: nadiaId,
       status: 'upcoming',
       date: 'Sep 5, 2026',
       time: '09:30 AM',
@@ -165,7 +198,7 @@ async function seed() {
       rideId: insertedRides.insertedIds[0].toString(),
     },
     {
-      userId: passengerId,
+      userId: nadiaId,
       status: 'upcoming',
       date: 'Sep 6, 2026',
       time: '05:45 PM',
@@ -177,7 +210,7 @@ async function seed() {
       rideId: insertedRides.insertedIds[1].toString(),
     },
     {
-      userId: passengerId,
+      userId: nadiaId,
       status: 'completed',
       date: 'Aug 28, 2026',
       time: '08:15 AM',
@@ -188,7 +221,7 @@ async function seed() {
       price: '৳150',
     },
     {
-      userId: passengerId,
+      userId: nadiaId,
       status: 'completed',
       date: 'Aug 20, 2026',
       time: '06:00 PM',
@@ -199,7 +232,7 @@ async function seed() {
       price: '৳60',
     },
     {
-      userId: passengerId,
+      userId: nadiaId,
       status: 'cancelled',
       date: 'Aug 14, 2026',
       time: '10:00 AM',
