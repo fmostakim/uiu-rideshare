@@ -127,6 +127,16 @@ export default function Messages() {
                       <span className="block mt-1 text-right text-[10px] text-brand-text">{selectedChat.time}</span>
                     </div>
                   </div>
+
+                  {/* Appended User Messages */}
+                  {(selectedChat.userMessages || []).map((msg, idx) => (
+                    <div key={idx} className="flex items-start justify-end gap-3">
+                      <div className="rounded-xl rounded-tr-none bg-brand-red text-white p-3 shadow-sm max-w-[75%]">
+                        <p className="font-body text-sm">{msg}</p>
+                        <span className="block mt-1 text-right text-[10px] text-white/80">Just now</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Chat Input */}
@@ -136,7 +146,9 @@ export default function Messages() {
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (messageText.trim()) {
-                        alert('Message functionality coming soon!');
+                        // Mutate selected chat for presentation purposes
+                        selectedChat.userMessages = [...(selectedChat.userMessages || []), messageText.trim()];
+                        setSelectedChat({ ...selectedChat });
                         setMessageText('');
                       }
                     }}

@@ -27,6 +27,8 @@ export default function FindRide() {
   const [pickup, setPickup] = useState('UIU Main Campus');
   const [destination, setDestination] = useState('');
   const [filters, setFilters] = useState({});
+  const [sortOption, setSortOption] = useState('Earliest');
+  const [showSort, setShowSort] = useState(false);
 
   const { rides, loading, error, refetch } = useRides(filters);
 
@@ -37,6 +39,7 @@ export default function FindRide() {
       minSeats: seats.replace('+', ''),
       ...(time !== 'Anytime' && { time }),
       ...(gender !== 'No Preference' && { genderPreference: gender }),
+      ...(sortOption !== 'Earliest' && { sort: sortOption.toLowerCase() }),
     });
   };
 
@@ -46,6 +49,7 @@ export default function FindRide() {
     setTime('Anytime');
     setSeats('1');
     setGender('No Preference');
+    setSortOption('Earliest');
     setFilters({});
   };
 
@@ -175,10 +179,34 @@ export default function FindRide() {
                 ({loading ? 'searching…' : `${rides.length} found`})
               </span>
             </h1>
-            <button className="flex items-center gap-2 rounded-full bg-[#dee9fc] px-4 py-2 font-body text-base text-brand-text">
-              Sort by: <span className="font-semibold text-brand-ink">Earliest</span>
-              <img src={iconChevronDown} alt="" className="h-1.5 w-2" />
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setShowSort(!showSort)}
+                className="flex items-center gap-2 rounded-full bg-[#dee9fc] px-4 py-2 font-body text-base text-brand-text transition-colors hover:bg-[#cddbf5]"
+              >
+                Sort by: <span className="font-semibold text-brand-ink">{sortOption}</span>
+                <img src={iconChevronDown} alt="" className={`h-1.5 w-2 transition-transform ${showSort ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {showSort && (
+                <div className="absolute right-0 top-full mt-2 w-48 overflow-hidden rounded-xl border border-brand-panel bg-white shadow-lg z-10">
+                  {['Earliest', 'Price', 'Seats'].map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => {
+                        setSortOption(opt);
+                        setShowSort(false);
+                        // trigger search automatically on sort change
+                        setFilters(prev => ({ ...prev, sort: opt.toLowerCase() }));
+                      }}
+                      className="block w-full px-4 py-3 text-left font-body text-sm text-brand-ink hover:bg-[#f5f5f5]"
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-6">

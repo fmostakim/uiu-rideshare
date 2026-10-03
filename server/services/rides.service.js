@@ -8,7 +8,7 @@ const normalizePlace = (value) =>
 
 export const ridesService = {
   async listRides(filters) {
-    const rides = await store.findRides(filters);
+    let rides = await store.findRides(filters);
 
     const parseTime = (t) => {
       if (!t) return 0;
@@ -21,8 +21,21 @@ export const ridesService = {
       return h * 60 + Number(m);
     };
 
-    // Sort earliest first, matching the "Sort by: Earliest" control in the UI.
-    return [...rides].sort((a, b) => {
+    if (filters.time && filters.time !== 'Anytime') {
+      rides = rides.filter((ride) => {
+        const hours = parseTime(ride.time) / 60;
+        if (filters.time === 'Morning') return hours < 12;
+        if (filters.time === 'Afternoon') return hours >= 12 && hours < 17;
+        if (filters.time === 'Evening') return hours >= 17;
+        return true;
+      });
+    }
+
+    return rides.sort((a, b) => {
+      if (filters.sort === 'price') return a.price - b.price;
+      if (filters.sort === 'seats') return b.seatsAvailable - a.seatsAvailable;
+      
+      // Default: Earliest
       const byDate = String(a.departureDate).localeCompare(String(b.departureDate));
       if (byDate !== 0) return byDate;
       return parseTime(a.time) - parseTime(b.time);
