@@ -1,3 +1,5 @@
+import uiuCampus from './img/uiu-campus.png';
+
 const ico = (path, vb = '0 0 24 24') =>
   `data:image/svg+xml,${encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${path}</svg>`
@@ -6,9 +8,8 @@ const ico = (path, vb = '0 0 24 24') =>
 const S = (c = '#6b7280') =>
   `stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
 
-// ── Auth background (Unsplash) ────────────────────────────────────────────────
-export const authBackground =
-  'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=900&q=80';
+// ── Auth background (UIU Campus) ──────────────────────────────────────────────
+export const authBackground = uiuCampus;
 
 // ── Form icons ────────────────────────────────────────────────────────────────
 export const iconUser = ico(

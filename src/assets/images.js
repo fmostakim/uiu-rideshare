@@ -1,4 +1,5 @@
 import routeMap3D from './img/route-map-3d.png';
+import uiuCampus from './img/uiu-campus.png';
 
 // All icons are inline SVGs (never expire).
 // Photos use Unsplash / UI-Avatars (free, no-auth CDNs).
@@ -33,8 +34,7 @@ export const avatarSafety3 =
   'https://ui-avatars.com/api/?name=Fahim+M&background=1d4ed8&color=fff&size=200&rounded=true&bold=true';
 
 // ── Photos ────────────────────────────────────────────────────────────────────
-export const heroBackground =
-  'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80';
+export const heroBackground = uiuCampus;
 export const mapPreview = routeMap3D;
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
