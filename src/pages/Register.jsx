@@ -136,7 +136,7 @@ export default function Register() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <label className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1">
               <span className="px-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
                 Gender
               </span>
@@ -157,7 +157,7 @@ export default function Register() {
                   className="pointer-events-none absolute right-[12px] h-3 w-3 opacity-70"
                 />
               </span>
-            </label>
+            </div>
 
             <FormField
               label="Phone Number"
@@ -181,7 +181,7 @@ export default function Register() {
 
           {isDriver && (
             <div className="grid grid-cols-2 gap-4">
-              <label className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <span className="px-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
                   Vehicle Type
                 </span>
@@ -202,7 +202,7 @@ export default function Register() {
                     className="pointer-events-none absolute right-[12px] h-3 w-3 opacity-70"
                   />
                 </span>
-              </label>
+              </div>
               <FormField
                 label="Vehicle Registration Number"
                 icon={iconPlate}
