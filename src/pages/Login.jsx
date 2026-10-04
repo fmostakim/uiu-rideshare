@@ -191,6 +191,30 @@ export default function Login() {
           </a>
           .
         </p>
+
+        {/* Demo Helper */}
+        <div className="mt-8 flex justify-center gap-2 border-t border-brand-panel pt-4">
+          <button
+            type="button"
+            onClick={() => {
+              setStudentId('0112330099');
+              setPassword('password123');
+            }}
+            className="rounded-full bg-pink-100 px-3 py-1 font-body text-xs font-semibold text-pink-700"
+          >
+            Ayesha (Female)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setStudentId('0112330088');
+              setPassword('password123');
+            }}
+            className="rounded-full bg-blue-100 px-3 py-1 font-body text-xs font-semibold text-blue-700"
+          >
+            Rahim (Male)
+          </button>
+        </div>
       </div>
 
       {/* Forgot Password Modal */}
