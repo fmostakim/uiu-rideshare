@@ -13,6 +13,20 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Forgot password states
+  const [showForgot, setShowForgot] = useState(false);
+  const [resetId, setResetId] = useState('');
+  const [resetStatus, setResetStatus] = useState('');
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    if (!resetId.trim()) return;
+    setResetStatus('sending');
+    setTimeout(() => {
+      setResetStatus('sent');
+    }, 1500);
+  };
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -106,9 +120,17 @@ export default function Login() {
                 <input type="checkbox" className="size-4 rounded border-[#e4beb9]" />
                 Remember me
               </label>
-              <a href="#" className="font-body text-xs font-semibold tracking-[0.6px] text-brand-red-dark">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForgot(true);
+                  setResetStatus('');
+                  setResetId('');
+                }}
+                className="font-body text-xs font-semibold tracking-[0.6px] text-brand-red-dark hover:underline"
+              >
                 Forgot Password?
-              </a>
+              </button>
             </div>
           </div>
 
@@ -136,6 +158,70 @@ export default function Login() {
           .
         </p>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgot && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+            {resetStatus === 'sent' ? (
+              <div className="text-center">
+                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-[#dcf5e3] mb-4">
+                  <svg className="size-6 text-[#1c7a3e]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-brand-ink">Check your email</h3>
+                <p className="mt-2 font-body text-sm text-brand-text">
+                  We have sent a password reset link to your university email address.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowForgot(false)}
+                  className="mt-6 w-full rounded-lg bg-brand-red py-3 font-body text-sm font-semibold text-white"
+                >
+                  Back to Login
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="flex flex-col gap-4">
+                <h3 className="font-display text-xl font-bold text-brand-ink">Reset Password</h3>
+                <p className="font-body text-sm text-brand-text">
+                  Enter your Student ID and we will send a reset link to your email.
+                </p>
+                
+                <div className="mt-2">
+                  <FormField
+                    label="Student ID"
+                    icon={iconGraduationCap}
+                    placeholder="011XXXXXXX"
+                    name="resetId"
+                    value={resetId}
+                    onChange={(e) => setResetId(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mt-4 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowForgot(false)}
+                    className="flex-1 rounded-lg border border-brand-panel bg-white py-3 font-body text-sm font-semibold text-brand-ink transition-colors hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={resetStatus === 'sending' || !resetId.trim()}
+                    className="flex-1 rounded-lg bg-brand-red py-3 font-body text-sm font-semibold text-white disabled:opacity-60"
+                  >
+                    {resetStatus === 'sending' ? 'Sending...' : 'Send Link'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </AuthLayout>
   );
 }
