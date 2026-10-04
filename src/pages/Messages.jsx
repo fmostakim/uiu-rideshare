@@ -1,43 +1,48 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppNavbar from '../components/AppNavbar';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
 export default function Messages() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [messageText, setMessageText] = useState('');
   const [conversations, setConversations] = useState([]);
+  const [tempChat, setTempChat] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const selectedChat = conversations.find(c => c.id === selectedChatId) || null;
+  // Combine real conversations with the temporary one if it hasn't been created yet
+  const displayedConvos = [...conversations];
+  if (tempChat && !displayedConvos.find(c => c.id === tempChat.id)) {
+    displayedConvos.unshift(tempChat);
+  }
+
+  const selectedChat = displayedConvos.find(c => c.id === selectedChatId) || null;
 
   const fetchConversations = async () => {
     try {
       const data = await api.getConversations();
+      setConversations(data);
       
       const searchParams = new URLSearchParams(window.location.search);
       const startChatId = searchParams.get('startChat');
       
-      let allConvos = [...data];
-      
-      if (startChatId && !allConvos.find(c => c.id === startChatId)) {
-        allConvos.unshift({
-          id: startChatId,
-          name: 'New Chat',
-          initials: '?',
-          lastMessage: 'Start a conversation...',
-          time: 'Now',
-          unread: 0,
-          messages: []
-        });
-      }
-      
-      setConversations(allConvos);
-      
       if (startChatId) {
+        if (!data.find(c => c.id === startChatId)) {
+          setTempChat({
+            id: startChatId,
+            name: 'New Chat',
+            initials: '?',
+            lastMessage: 'Start a conversation...',
+            time: 'Now',
+            unread: 0,
+            messages: []
+          });
+        }
         setSelectedChatId(startChatId);
-        window.history.replaceState({}, '', '/messages');
+        navigate('/messages', { replace: true });
       }
     } catch (err) {
       console.error('Failed to load conversations:', err);
@@ -103,13 +108,13 @@ export default function Messages() {
           {/* Conversation list */}
           <div className="flex flex-col gap-2 rounded-xl border border-brand-panel bg-white p-4 shadow-[0px_4px_6px_rgba(0,0,0,0.05)] h-[600px] overflow-y-auto">
             <h2 className="mb-2 font-display text-lg font-semibold text-brand-ink">Conversations</h2>
-            {loading && conversations.length === 0 && (
+            {loading && displayedConvos.length === 0 && (
               <p className="text-center font-body text-sm text-brand-text py-10">Loading...</p>
             )}
-            {!loading && conversations.length === 0 && (
+            {!loading && displayedConvos.length === 0 && (
               <p className="text-center font-body text-sm text-brand-text py-10">No messages yet.</p>
             )}
-            {conversations.map((convo) => {
+            {displayedConvos.map((convo) => {
               const isSelected = selectedChat?.id === convo.id;
               return (
                 <button
