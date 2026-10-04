@@ -10,10 +10,18 @@ const ico = (path, vb = '0 0 24 24', extra = '') =>
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
 export const logo = ico(
-  `<rect width="68" height="68" rx="10" fill="#b7131a"/>` +
-  `<text x="34" y="46" font-family="Arial,sans-serif" font-weight="bold" ` +
-  `fill="white" font-size="22" text-anchor="middle">UIU</text>`,
-  '0 0 68 68'
+  `<defs>` +
+    `<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">` +
+      `<stop offset="0%" stop-color="#e11d25"/>` +
+      `<stop offset="100%" stop-color="#8f0c13"/>` +
+    `</linearGradient>` +
+  `</defs>` +
+  `<rect width="100" height="100" rx="22" fill="url(#bg)"/>` +
+  `<path d="M 38 30 A 12 12 0 0 1 62 30 C 62 42 50 54 50 54 C 50 54 38 42 38 30 Z" fill="white"/>` +
+  `<circle cx="50" cy="28" r="4" fill="#c91820"/>` +
+  `<text x="50" y="74" font-family="system-ui, sans-serif" font-weight="900" fill="white" font-size="24" text-anchor="middle" letter-spacing="1.5">UIU</text>` +
+  `<text x="51" y="88" font-family="system-ui, sans-serif" font-weight="700" fill="#fca5a5" font-size="10" text-anchor="middle" letter-spacing="3">RIDESHARE</text>`,
+  '0 0 100 100'
 );
 
 // ── Avatars (UI-Avatars API) ──────────────────────────────────────────────────
