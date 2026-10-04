@@ -18,6 +18,7 @@ import {
 const EMPTY_FORM = {
   fullName: '',
   studentId: '',
+  gender: 'Male',
   phone: '',
   email: '',
   vehicleType: 'Car',
@@ -59,6 +60,7 @@ export default function Register() {
       await register({
         fullName: form.fullName,
         studentId: form.studentId,
+        gender: form.gender,
         phone: form.phone,
         email: form.email,
         password: form.password,
@@ -134,6 +136,29 @@ export default function Register() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+            <label className="flex flex-col gap-1">
+              <span className="px-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
+                Gender
+              </span>
+              <span className="relative flex items-center">
+                <img src={iconUser} alt="" className="pointer-events-none absolute left-[12px] h-4 w-4 opacity-70" />
+                <select
+                  className="w-full appearance-none rounded-lg border border-[#e4beb9] bg-white py-[13px] pl-[41px] pr-9 text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+                  value={form.gender}
+                  onChange={update('gender')}
+                  required
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <img
+                  src={iconChevronDown}
+                  alt=""
+                  className="pointer-events-none absolute right-[12px] h-3 w-3 opacity-70"
+                />
+              </span>
+            </label>
+
             <FormField
               label="Phone Number"
               icon={iconPhone}
@@ -142,16 +167,17 @@ export default function Register() {
               value={form.phone}
               onChange={update('phone')}
             />
-            <FormField
-              label="UIU Email Address"
-              icon={iconMail}
-              type="email"
-              placeholder="jdoe123@bscse.uiu.ac.bd"
-              name="email"
-              value={form.email}
-              onChange={update('email')}
-            />
           </div>
+
+          <FormField
+            label="UIU Email Address"
+            icon={iconMail}
+            type="email"
+            placeholder="jdoe123@bscse.uiu.ac.bd"
+            name="email"
+            value={form.email}
+            onChange={update('email')}
+          />
 
           {isDriver && (
             <div className="grid grid-cols-2 gap-4">

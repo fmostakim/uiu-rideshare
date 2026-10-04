@@ -45,6 +45,7 @@ export const authService = {
       studentId: normalizedId,
       email: payload.email ?? '',
       phone: payload.phone ?? '',
+      gender: payload.gender ?? null,
       role: role === 'driver' ? 'driver' : 'passenger',
       vehicle: role === 'driver' ? payload.vehicle ?? null : null,
       password: await hashPassword(password),

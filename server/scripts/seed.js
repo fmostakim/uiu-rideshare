@@ -33,7 +33,7 @@ async function seed() {
   const { insertedIds } = await collections.users(db).insertMany([
     {
       fullName: 'Rahat Saleh',
-      studentId: '0112330001',
+      studentId: '0112330001', gender: 'Male',
       email: 'rsaleh1@bscse.uiu.ac.bd',
       phone: '01712345678',
       role: 'driver',
@@ -43,7 +43,7 @@ async function seed() {
     },
     {
       fullName: 'Nadia Karim',
-      studentId: '0112330002',
+      studentId: '0112330002', gender: 'Female',
       email: 'nkarim2@bscse.uiu.ac.bd',
       phone: '01798765432',
       role: 'passenger',

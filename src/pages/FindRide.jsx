@@ -3,6 +3,7 @@ import AppNavbar from '../components/AppNavbar';
 import RideCard from '../components/RideCard';
 import { useRides } from '../hooks/useRides';
 import { api } from '../api/client';
+import { useAuth } from '../context/AuthContext';
 import { iconPinRed, iconPinOutline, iconChevronDown } from '../assets/find-ride-images';
 
 const TIME_SLOTS = ['Morning', 'Afternoon', 'Evening', 'Anytime'];
@@ -41,6 +42,7 @@ export default function FindRide() {
   const [sortOption, setSortOption] = useState('Earliest');
   const [showSort, setShowSort] = useState(false);
 
+  const { user } = useAuth();
   const { rides, loading, error, refetch } = useRides(filters);
 
   const handleSearch = () => {
@@ -276,6 +278,15 @@ export default function FindRide() {
                   key={ride.id}
                   ride={withAvatar(ride, index)}
                   onJoin={() => {
+                    const reqGender = ride.genderPreference;
+                    if (reqGender === 'Male Only' && user?.gender === 'Female') {
+                      alert('This ride is restricted to Male passengers only.');
+                      return;
+                    }
+                    if (reqGender === 'Female Only' && user?.gender === 'Male') {
+                      alert('This ride is restricted to Female passengers only.');
+                      return;
+                    }
                     setSelectedRideForJoin(withAvatar(ride, index));
                     setJoinSeats(1);
                   }}
