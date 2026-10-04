@@ -45,6 +45,7 @@ const METHODS = [
   'findUserByStudentId',
   'findUserById',
   'createUser',
+  'updateUser',
   'findTripsByUser',
   'createTrip',
   'updateTrip',

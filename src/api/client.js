@@ -47,6 +47,8 @@ export const api = {
   register: (payload) => request('/auth/register', { method: 'POST', body: payload }),
   me: (token) =>
     request('/auth/me', { headers: token ? { Authorization: `Bearer ${token}` } : {} }),
+  forgotPassword: (studentId) => request('/auth/forgot-password', { method: 'POST', body: { studentId } }),
+  resetPassword: (payload) => request('/auth/reset-password', { method: 'POST', body: payload }),
 
   // trips
   getTrips: (status) => request(`/trips${toQuery({ status })}`),

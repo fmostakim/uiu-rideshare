@@ -16,15 +16,49 @@ export default function Login() {
   // Forgot password states
   const [showForgot, setShowForgot] = useState(false);
   const [resetId, setResetId] = useState('');
-  const [resetStatus, setResetStatus] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [resetStatus, setResetStatus] = useState(''); // '' | 'sending' | 'sent' | 'resetting' | 'success'
+  const [resetError, setResetError] = useState('');
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
+    setResetError('');
     if (!resetId.trim()) return;
     setResetStatus('sending');
-    setTimeout(() => {
+    try {
+      // Use standard fetch if api client is not imported, wait we have api client? No, this component doesn't import api client directly. It uses useAuth. Let's import api client. Wait, I will just use fetch to be safe.
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId: resetId })
+      });
+      if (!res.ok) throw new Error('Failed to send OTP');
       setResetStatus('sent');
-    }, 1500);
+    } catch (err) {
+      setResetError(err.message);
+      setResetStatus('');
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetError('');
+    if (!otp.trim() || !newPassword.trim()) return;
+    setResetStatus('resetting');
+    try {
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId: resetId, otp, newPassword })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to reset password');
+      setResetStatus('success');
+    } catch (err) {
+      setResetError(err.message);
+      setResetStatus('sent');
+    }
   };
 
   const { login } = useAuth();
@@ -163,32 +197,100 @@ export default function Login() {
       {showForgot && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
-            {resetStatus === 'sent' ? (
+            {resetStatus === 'success' ? (
               <div className="text-center">
                 <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-[#dcf5e3] mb-4">
                   <svg className="size-6 text-[#1c7a3e]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="font-display text-xl font-bold text-brand-ink">Check your email</h3>
+                <h3 className="font-display text-xl font-bold text-brand-ink">Password Updated</h3>
                 <p className="mt-2 font-body text-sm text-brand-text">
-                  We have sent a password reset link to your university email address.
+                  Your password has been successfully reset. You can now log in with your new password.
                 </p>
                 <button
                   type="button"
-                  onClick={() => setShowForgot(false)}
+                  onClick={() => {
+                    setShowForgot(false);
+                    setResetStatus('');
+                    setResetId('');
+                    setOtp('');
+                    setNewPassword('');
+                  }}
                   className="mt-6 w-full rounded-lg bg-brand-red py-3 font-body text-sm font-semibold text-white"
                 >
                   Back to Login
                 </button>
               </div>
+            ) : resetStatus === 'sent' || resetStatus === 'resetting' ? (
+              <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+                <h3 className="font-display text-xl font-bold text-brand-ink">Enter OTP</h3>
+                <p className="font-body text-sm text-brand-text">
+                  We sent a 4-digit OTP to your email. Please enter it below along with your new password.
+                </p>
+                
+                {resetError && (
+                  <p className="rounded-lg bg-[#fde2e1] px-3 py-2 font-body text-xs text-brand-red-dark">
+                    {resetError}
+                  </p>
+                )}
+
+                <div className="flex flex-col gap-3 mt-2">
+                  <FormField
+                    label="4-Digit OTP"
+                    icon={iconLock}
+                    placeholder="e.g. 1234"
+                    name="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    required
+                  />
+                  <FormField
+                    label="New Password"
+                    icon={iconLock}
+                    type="password"
+                    placeholder="••••••••"
+                    toggleablePassword
+                    name="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mt-4 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetStatus('');
+                      setResetError('');
+                    }}
+                    className="flex-1 rounded-lg border border-brand-panel bg-white py-3 font-body text-sm font-semibold text-brand-ink transition-colors hover:bg-gray-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={resetStatus === 'resetting' || !otp.trim() || !newPassword.trim()}
+                    className="flex-1 rounded-lg bg-brand-red py-3 font-body text-sm font-semibold text-white disabled:opacity-60"
+                  >
+                    {resetStatus === 'resetting' ? 'Saving...' : 'Update'}
+                  </button>
+                </div>
+              </form>
             ) : (
               <form onSubmit={handleForgotPassword} className="flex flex-col gap-4">
                 <h3 className="font-display text-xl font-bold text-brand-ink">Reset Password</h3>
                 <p className="font-body text-sm text-brand-text">
-                  Enter your Student ID and we will send a reset link to your email.
+                  Enter your Student ID and we will send an OTP to your email.
                 </p>
                 
+                {resetError && (
+                  <p className="rounded-lg bg-[#fde2e1] px-3 py-2 font-body text-xs text-brand-red-dark">
+                    {resetError}
+                  </p>
+                )}
+
                 <div className="mt-2">
                   <FormField
                     label="Student ID"
@@ -204,7 +306,10 @@ export default function Login() {
                 <div className="mt-4 flex gap-3">
                   <button
                     type="button"
-                    onClick={() => setShowForgot(false)}
+                    onClick={() => {
+                      setShowForgot(false);
+                      setResetError('');
+                    }}
                     className="flex-1 rounded-lg border border-brand-panel bg-white py-3 font-body text-sm font-semibold text-brand-ink transition-colors hover:bg-gray-50"
                   >
                     Cancel
@@ -214,7 +319,7 @@ export default function Login() {
                     disabled={resetStatus === 'sending' || !resetId.trim()}
                     className="flex-1 rounded-lg bg-brand-red py-3 font-body text-sm font-semibold text-white disabled:opacity-60"
                   >
-                    {resetStatus === 'sending' ? 'Sending...' : 'Send Link'}
+                    {resetStatus === 'sending' ? 'Sending...' : 'Send OTP'}
                   </button>
                 </div>
               </form>

@@ -130,6 +130,18 @@ export const mongoStore = {
     return serialize({ _id: result.insertedId, ...doc });
   },
 
+  async updateUser(id, changes) {
+    const _id = toId(id);
+    if (!_id) return null;
+    const db = await getDb();
+    const result = await collections.users(db).findOneAndUpdate(
+      { _id },
+      { $set: changes },
+      { returnDocument: 'after' }
+    );
+    return serialize(result?.value ?? result);
+  },
+
   // ---- trips ----
   async findTripsByUser(userId, status) {
     const db = await getDb();

@@ -220,6 +220,13 @@ export const memoryStore = {
     return user;
   },
 
+  async updateUser(id, changes) {
+    const idx = users.findIndex((u) => u.id === id);
+    if (idx === -1) return null;
+    users[idx] = { ...users[idx], ...changes };
+    return users[idx];
+  },
+
   // ---- trips ----
   async findTripsByUser(userId, status) {
     return trips.filter(

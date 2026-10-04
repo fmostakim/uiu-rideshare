@@ -16,4 +16,14 @@ export const authController = {
     const user = await authService.me(token);
     res.json({ user });
   },
+
+  async forgotPassword(req, res) {
+    const result = await authService.forgotPassword(req.body.studentId);
+    res.json(result);
+  },
+
+  async resetPassword(req, res) {
+    const result = await authService.resetPassword(req.body);
+    res.json(result);
+  }
 };

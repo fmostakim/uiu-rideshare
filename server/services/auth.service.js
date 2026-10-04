@@ -1,6 +1,7 @@
 import { store } from '../data/index.js';
 import { ApiError } from '../middleware/errorHandler.js';
 import { hashPassword, verifyPassword, signToken, verifyToken } from '../utils/crypto.js';
+import { emailService } from './email.service.js';
 
 const toPublicUser = (user) => {
   if (!user) return null;
@@ -61,4 +62,54 @@ export const authService = {
 
     return toPublicUser(user);
   },
+
+  async forgotPassword(studentId) {
+    if (!studentId) throw new ApiError(400, 'Student ID is required');
+    const user = await store.findUserByStudentId(String(studentId).trim());
+    if (!user) {
+      // Don't reveal if user exists or not
+      return { message: 'If the ID exists, an email has been sent.' };
+    }
+    
+    // Fallback to fake email if none provided
+    const userEmail = user.email || 'fake@bscse.uiu.ac.bd'; 
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit OTP
+    const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    await store.updateUser(user.id || user._id, { otp, otpExpires });
+
+    // Send email
+    await emailService.sendOTP(userEmail, otp);
+
+    return { message: 'If the ID exists, an email has been sent.' };
+  },
+
+  async resetPassword({ studentId, otp, newPassword }) {
+    if (!studentId || !otp || !newPassword) {
+      throw new ApiError(400, 'Student ID, OTP, and new password are required');
+    }
+
+    const user = await store.findUserByStudentId(String(studentId).trim());
+    if (!user) throw new ApiError(400, 'Invalid OTP or Student ID');
+
+    if (!user.otp || user.otp !== String(otp)) {
+      throw new ApiError(400, 'Invalid OTP');
+    }
+
+    if (Date.now() > user.otpExpires) {
+      throw new ApiError(400, 'OTP has expired. Please request a new one.');
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Clear OTP and update password
+    await store.updateUser(user.id || user._id, { 
+      password: hashedPassword,
+      otp: null,
+      otpExpires: null 
+    });
+
+    return { message: 'Password has been reset successfully.' };
+  }
 };
