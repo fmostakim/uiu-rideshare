@@ -4,18 +4,29 @@ import RideCard from '../components/RideCard';
 import { useRides } from '../hooks/useRides';
 import { api } from '../api/client';
 import { iconPinRed, iconPinOutline, iconChevronDown } from '../assets/find-ride-images';
-import { driverAvatar1, driverAvatar2 } from '../assets/find-ride-images';
 
 const TIME_SLOTS = ['Morning', 'Afternoon', 'Evening', 'Anytime'];
 const SEAT_OPTIONS = ['1', '2', '3', '4+'];
 const GENDER_OPTIONS = ['No Preference', 'Male Only', 'Female Only', 'Mixed Gender'];
 
-// The API has no avatar images, so attach the local ones by position.
-const AVATARS = [driverAvatar1, driverAvatar2];
-const withAvatar = (ride, index) => ({
-  ...ride,
-  driver: { ...ride.driver, avatar: AVATARS[index % AVATARS.length] },
-});
+const withAvatar = (ride) => {
+  const nameParts = (ride.driver?.name || 'User').split(' ');
+  const initials = nameParts.length > 1 
+    ? `${nameParts[0][0]}${nameParts[1][0]}`
+    : nameParts[0].slice(0, 2);
+  
+  // Pick a background color based on name length or first char
+  const colors = ['b7131a', '27313f', '1d4ed8', '047857', '9333ea', 'ea580c'];
+  const color = colors[initials.charCodeAt(0) % colors.length];
+
+  return {
+    ...ride,
+    driver: {
+      ...ride.driver,
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=${color}&color=fff&size=200&rounded=true&bold=true`
+    },
+  };
+};
 
 export default function FindRide() {
   const [time, setTime] = useState('Anytime');
