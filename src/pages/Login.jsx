@@ -200,7 +200,7 @@ export default function Login() {
               setStudentId('0112330099');
               setPassword('password123');
             }}
-            className="rounded-full bg-pink-100 px-3 py-1 font-body text-xs font-semibold text-pink-700"
+            className="rounded-full bg-pink-100 px-3 py-1 font-body text-xs font-semibold text-pink-700 transition-all hover:bg-pink-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-1"
           >
             Ayesha (Female)
           </button>
@@ -210,7 +210,7 @@ export default function Login() {
               setStudentId('0112330088');
               setPassword('password123');
             }}
-            className="rounded-full bg-blue-100 px-3 py-1 font-body text-xs font-semibold text-blue-700"
+            className="rounded-full bg-blue-100 px-3 py-1 font-body text-xs font-semibold text-blue-700 transition-all hover:bg-blue-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1"
           >
             Rahim (Male)
           </button>
