@@ -8,7 +8,6 @@ import {
   iconCar,
   iconBike,
   iconScooter,
-  iconVan,
   iconPickup,
   iconDestination,
   iconDate,
@@ -27,7 +26,6 @@ const VEHICLES = [
   { key: 'Car', icon: iconCar, className: 'h-6 w-[27px]' },
   { key: 'Bike', icon: iconBike, className: 'h-[21px] w-9' },
   { key: 'Scooter', icon: iconScooter, className: 'h-[33px] w-[30px]' },
-  { key: 'Van', icon: iconVan, className: 'h-[21px] w-[33px]' },
 ];
 
 const SEAT_OPTIONS = [1, 2, 3, 4, 5, 6];
@@ -96,7 +94,7 @@ export default function OfferRide() {
         time: formatTime(form.time),
         vehicle,
         genderPreference: form.genderPreference,
-        acOn: vehicle === 'Car' || vehicle === 'Van',
+        acOn: vehicle === 'Car',
         price: Number(form.price),
         totalSeats: Number(form.seats),
         seatsAvailable: Number(form.seats),
