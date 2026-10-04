@@ -37,6 +37,28 @@ const users = [
     rating: 4.8,
     password: 'password123',
   },
+  {
+    id: 'u3',
+    fullName: 'Ayesha Siddiqua',
+    studentId: '0112330099',
+    gender: 'Female',
+    email: 'ayesha99@bscse.uiu.ac.bd',
+    phone: '01755555599',
+    role: 'passenger',
+    rating: 4.9,
+    password: 'password123',
+  },
+  {
+    id: 'u4',
+    fullName: 'Rahim Khan',
+    studentId: '0112330088',
+    gender: 'Male',
+    email: 'rahim88@bscse.uiu.ac.bd',
+    phone: '01755555588',
+    role: 'driver',
+    rating: 4.8,
+    password: 'password123',
+  }
 ];
 
 const rides = [
@@ -65,12 +87,28 @@ const rides = [
     departureDate: '2026-09-06',
     time: '05:45 PM',
     vehicle: 'Honda Civic (White)',
-    genderPreference: 'Mixed Gender',
+    genderPreference: 'Male Only',
     acOn: false,
     price: 80,
     seatsAvailable: 3,
     totalSeats: 4,
     createdAt: new Date('2026-09-01T09:30:00Z').toISOString(),
+  },
+  {
+    id: 'r3',
+    driverId: 'u4',
+    driver: { name: 'Rahim K.', tag: 'Business', rating: '4.8' },
+    from: { name: 'UIU Main Campus', detail: 'Parking Zone B' },
+    to: { name: 'Dhanmondi 27', detail: 'Meena Bazar' },
+    departureDate: '2026-09-07',
+    time: '04:00 PM',
+    vehicle: 'Toyota Premio (Silver)',
+    genderPreference: 'Female Only',
+    acOn: true,
+    price: 100,
+    seatsAvailable: 2,
+    totalSeats: 3,
+    createdAt: new Date('2026-09-02T10:00:00Z').toISOString(),
   },
 ];
 
