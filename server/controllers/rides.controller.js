@@ -17,7 +17,8 @@ export const ridesController = {
   },
 
   async join(req, res) {
-    const ride = await ridesService.joinRide(req.params.id, req.user ?? null);
+    const seats = req.body.seats ? Number(req.body.seats) : 1;
+    const ride = await ridesService.joinRide(req.params.id, req.user ?? null, seats);
     res.json({ ride });
   },
 };

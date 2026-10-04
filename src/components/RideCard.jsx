@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { iconStar, iconRouteStart, iconRouteEnd, iconCarTag, iconGenderTag, iconAcTag } from '../assets/find-ride-images';
 
 export default function RideCard({ ride, onJoin }) {
+  const navigate = useNavigate();
   const seatsFilled = ride.totalSeats - ride.seatsAvailable;
   const filledPercent = (seatsFilled / ride.totalSeats) * 100;
 
@@ -91,8 +93,7 @@ export default function RideCard({ ride, onJoin }) {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                // We could dispatch an event or use context, but simplest is to redirect with state
-                window.location.href = `/messages?startChat=${ride.driverId}`;
+                navigate(`/messages?startChat=${ride.driverId}`);
               }}
               className="flex-1 rounded-lg border border-brand-red bg-white py-3 font-body text-base font-semibold text-brand-red shadow-sm transition-colors hover:bg-brand-red hover:text-white"
             >

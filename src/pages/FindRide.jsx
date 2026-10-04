@@ -65,16 +65,25 @@ export default function FindRide() {
   };
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [selectedRideForJoin, setSelectedRideForJoin] = useState(null);
+  const [joinSeats, setJoinSeats] = useState(1);
+  const [isJoining, setIsJoining] = useState(false);
 
-  const handleJoin = async (rideId) => {
+  const handleConfirmJoin = async () => {
+    if (!selectedRideForJoin) return;
+    setIsJoining(true);
     try {
-      await api.joinRide(rideId);
+      await api.joinRide(selectedRideForJoin.id, joinSeats);
       setSuccessMessage('Ride booked successfully! Check My Trips.');
       setTimeout(() => setSuccessMessage(''), 4000);
       refetch();
+      setSelectedRideForJoin(null);
+      setJoinSeats(1);
     } catch (err) {
       console.error(err);
       alert(err.message || 'Failed to join ride');
+    } finally {
+      setIsJoining(false);
     }
   };
 
@@ -266,12 +275,92 @@ export default function FindRide() {
                 <RideCard
                   key={ride.id}
                   ride={withAvatar(ride, index)}
-                  onJoin={() => handleJoin(ride.id)}
+                  onJoin={() => {
+                    setSelectedRideForJoin(withAvatar(ride, index));
+                    setJoinSeats(1);
+                  }}
                 />
               ))}
           </div>
         </section>
       </main>
+
+      {/* Join Ride Modal */}
+      {selectedRideForJoin && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <h3 className="font-display text-2xl font-semibold text-brand-ink">Confirm Booking</h3>
+            <p className="mt-2 font-body text-sm text-brand-text">
+              You are about to join a ride with <span className="font-semibold text-brand-ink">{selectedRideForJoin.driver.name}</span>.
+            </p>
+            
+            <div className="mt-4 rounded-xl border border-brand-panel bg-[#fafafa] p-4">
+              <div className="flex justify-between items-center mb-3">
+                <span className="font-body text-sm text-brand-text">Route</span>
+                <span className="font-body text-sm font-semibold text-brand-ink">
+                  {selectedRideForJoin.from.name} &rarr; {selectedRideForJoin.to.name}
+                </span>
+              </div>
+              <div className="flex justify-between items-center mb-3">
+                <span className="font-body text-sm text-brand-text">Time</span>
+                <span className="font-body text-sm font-semibold text-brand-ink">
+                  {selectedRideForJoin.time}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-body text-sm text-brand-text">Price per seat</span>
+                <span className="font-body text-sm font-semibold text-brand-red">
+                  ৳{selectedRideForJoin.price}
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-2">
+              <label className="font-body text-sm font-medium text-brand-ink">
+                How many seats do you need? (Max: {selectedRideForJoin.seatsAvailable})
+              </label>
+              <input 
+                type="number"
+                min="1"
+                max={selectedRideForJoin.seatsAvailable}
+                value={joinSeats}
+                onChange={(e) => {
+                  let val = parseInt(e.target.value);
+                  if (isNaN(val) || val < 1) val = 1;
+                  if (val > selectedRideForJoin.seatsAvailable) val = selectedRideForJoin.seatsAvailable;
+                  setJoinSeats(val);
+                }}
+                className="w-full rounded-lg border border-brand-panel bg-white px-4 py-3 font-body text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+              />
+            </div>
+
+            <div className="mt-4 flex justify-between items-center border-t border-brand-panel pt-4">
+              <span className="font-body text-base text-brand-ink">Total Amount:</span>
+              <span className="font-display text-2xl font-bold text-brand-red">
+                ৳{selectedRideForJoin.price * joinSeats}
+              </span>
+            </div>
+
+            <div className="mt-8 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedRideForJoin(null)}
+                className="flex-1 rounded-lg border border-brand-panel bg-white py-3 font-body text-base font-semibold text-brand-ink transition-colors hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmJoin}
+                disabled={isJoining}
+                className="flex-1 rounded-lg bg-brand-red py-3 font-body text-base font-semibold text-white shadow-sm disabled:opacity-60"
+              >
+                {isJoining ? 'Confirming...' : 'Confirm Booking'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

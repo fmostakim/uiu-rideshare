@@ -39,7 +39,8 @@ export const tripsService = {
     }
 
     if (trip.rideId) {
-      await store.incrementSeat(trip.rideId);
+      const seatsToRestore = trip.seatsBooked || 1;
+      await store.incrementSeat(trip.rideId, seatsToRestore);
     }
 
     return store.updateTrip(tripId, {

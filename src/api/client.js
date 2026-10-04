@@ -40,7 +40,7 @@ export const api = {
   getRides: (filters) => request(`/rides${toQuery(filters)}`),
   getRide: (id) => request(`/rides/${id}`),
   createRide: (ride) => request('/rides', { method: 'POST', body: ride }),
-  joinRide: (id) => request(`/rides/${id}/join`, { method: 'POST' }),
+  joinRide: (id, seats = 1) => request(`/rides/${id}/join`, { method: 'POST', body: { seats } }),
 
   // auth
   login: (credentials) => request('/auth/login', { method: 'POST', body: credentials }),

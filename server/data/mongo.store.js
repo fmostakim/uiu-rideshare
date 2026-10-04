@@ -78,25 +78,25 @@ export const mongoStore = {
   },
 
   /**
-   * Atomically claim a seat. The `seatsAvailable: { $gte: 1 }` guard makes the
+   * Atomically claim seats. The `seatsAvailable: { $gte: count }` guard makes the
    * check-and-decrement a single operation, so two people clicking "Join Ride"
    * at the same moment cannot oversell the last seat.
    */
-  async decrementSeat(id) {
+  async decrementSeat(id, count = 1) {
     const _id = toId(id);
     if (!_id) return null;
     const db = await getDb();
     const result = await collections
       .rides(db)
       .findOneAndUpdate(
-        { _id, seatsAvailable: { $gte: 1 } },
-        { $inc: { seatsAvailable: -1 } },
+        { _id, seatsAvailable: { $gte: count } },
+        { $inc: { seatsAvailable: -count } },
         { returnDocument: 'after' }
       );
     return serialize(result?.value ?? result);
   },
 
-  async incrementSeat(id) {
+  async incrementSeat(id, count = 1) {
     const _id = toId(id);
     if (!_id) return null;
     const db = await getDb();
@@ -104,7 +104,7 @@ export const mongoStore = {
       .rides(db)
       .findOneAndUpdate(
         { _id },
-        { $inc: { seatsAvailable: 1 } },
+        { $inc: { seatsAvailable: count } },
         { returnDocument: 'after' }
       );
     return serialize(result?.value ?? result);

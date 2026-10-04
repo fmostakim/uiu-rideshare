@@ -86,31 +86,31 @@ export const ridesService = {
    * If a logged-in user is provided, an 'upcoming' trip record is also created
    * so the ride appears in their My Trips page immediately.
    */
-  async joinRide(id, user) {
-    const ride = await this.getRide(id); // 404 if the ride does not exist at all
+  async joinRide(id, user, seats = 1) {
+    const ride = await this.getRide(id); 
 
     if (user?.id) {
       if (ride.driverId === user.id) {
         throw new ApiError(403, 'You cannot join your own ride');
       }
 
-      // Check if user already joined this ride
       const existingTrips = await store.findTripsByUser(user.id, 'upcoming');
       if (existingTrips.some(t => t.rideId === id)) {
         throw new ApiError(409, 'You have already joined this ride');
       }
     }
 
-    const updated = await store.decrementSeat(id);
-    if (!updated) throw new ApiError(409, 'This ride is already full');
+    const updated = await store.decrementSeat(id, seats);
+    if (!updated) throw new ApiError(409, 'Not enough seats available');
 
-    // Create a trip record so the passenger can see it in My Trips.
     if (user?.id) {
       const formatDate = (iso) => {
         if (!iso) return '';
         const d = new Date(iso);
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       };
+
+      const totalPrice = ride.price * seats;
 
       await store.createTrip({
         userId: user.id,
@@ -121,7 +121,8 @@ export const ridesService = {
         to: ride.to?.name ?? '',
         role: 'passenger',
         withPerson: ride.driver?.name ?? 'Driver',
-        price: `৳${ride.price}`,
+        price: `৳${totalPrice}`,
+        seatsBooked: seats,
         rideId: id,
       });
     }
