@@ -7,14 +7,14 @@ const STATS = [
 
 export default function Stats() {
   return (
-    <section className="bg-white px-12 py-8">
-      <div className="mx-auto grid max-w-[1700px] grid-cols-2 gap-8 md:grid-cols-4">
+    <section className="bg-white px-4 py-8 sm:px-8 sm:py-12 lg:px-12">
+      <div className="mx-auto grid max-w-[1700px] grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
         {STATS.map((stat) => (
-          <div key={stat.label} className="text-center">
-            <p className="font-display text-5xl font-bold tracking-[-0.96px] text-brand-red-dark">
+          <div key={stat.label} className="text-center p-2">
+            <p className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-brand-red-dark">
               {stat.value}
             </p>
-            <p className="mt-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
+            <p className="mt-1 sm:mt-2 font-body text-xs sm:text-sm font-medium uppercase tracking-wider text-brand-text">
               {stat.label}
             </p>
           </div>

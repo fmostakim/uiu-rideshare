@@ -36,50 +36,50 @@ export default function TripCard({ trip, onCancel }) {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 rounded-xl border border-brand-panel bg-white p-6 shadow-[0px_4px_6px_rgba(0,0,0,0.05)] sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex flex-1 flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-3">
+    <div className="flex w-full flex-col gap-4 rounded-2xl border border-brand-panel bg-white p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-1 flex-col gap-2.5 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <span
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-body text-xs font-semibold uppercase tracking-[0.6px] ${status.badge}`}
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-body text-xs font-semibold uppercase tracking-wider ${status.badge}`}
           >
             <StatusIcon className="size-3.5" />
             {status.label}
           </span>
-          <span className="flex items-center gap-1.5 font-body text-sm text-brand-text">
-            <CalendarIcon className="size-4" />
+          <span className="flex items-center gap-1.5 font-body text-xs sm:text-sm text-brand-text">
+            <CalendarIcon className="size-3.5 sm:size-4" />
             {trip.date} &middot; {trip.time}
           </span>
         </div>
 
         <div className="flex items-start gap-2">
           <PinIcon className="mt-0.5 size-4 shrink-0 text-brand-red" />
-          <div className="font-body text-base text-brand-ink">
+          <div className="font-body text-sm sm:text-base font-semibold text-brand-ink">
             <span>{trip.from}</span>
             <span className="mx-2 text-brand-text">&rarr;</span>
             <span>{trip.to}</span>
           </div>
         </div>
 
-        <p className="font-body text-sm text-brand-text">
-          {trip.role === 'driver' ? 'You drove' : 'Driver'}: <span className="text-brand-ink">{trip.withPerson}</span>
+        <p className="font-body text-xs sm:text-sm text-brand-text">
+          {trip.role === 'driver' ? 'You drove' : 'Driver'}: <span className="font-medium text-brand-ink">{trip.withPerson}</span>
         </p>
       </div>
 
-      <div className="flex flex-col items-start gap-3 sm:items-end">
-        <p className="font-display text-xl text-brand-red">{trip.price}</p>
+      <div className="flex flex-col items-start gap-3 border-t border-[#e4beb9]/40 pt-3 sm:border-t-0 sm:pt-0 sm:items-end">
+        <p className="font-display text-lg sm:text-xl font-bold text-brand-red">৳{trip.price}</p>
         {trip.status === 'upcoming' && (
-          <div className="flex gap-3">
+          <div className="flex w-full sm:w-auto gap-2 sm:gap-3">
             <button
               type="button"
               onClick={onCancel}
-              className="rounded-lg border-2 border-brand-red-dark px-4 py-2 font-body text-sm font-semibold text-brand-red-dark"
+              className="flex-1 sm:flex-initial rounded-xl border border-brand-red-dark px-4 py-2 font-body text-xs sm:text-sm font-semibold text-brand-red-dark transition-all hover:bg-brand-red-dark/5 active:scale-95 text-center"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={handleTrack}
-              className="rounded-lg bg-brand-red px-4 py-2 font-body text-sm font-semibold text-white shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.1),0px_2px_4px_-2px_rgba(0,0,0,0.1)]"
+              className="flex-1 sm:flex-initial rounded-xl bg-brand-red px-4 py-2 font-body text-xs sm:text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-red-dark active:scale-95 text-center"
             >
               {tracked ? '📍 Tracking…' : 'Track Ride'}
             </button>

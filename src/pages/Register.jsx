@@ -77,27 +77,27 @@ export default function Register() {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-[576px] overflow-hidden rounded-lg border border-white/20 bg-white shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)]">
-        <div className="flex flex-col items-center gap-1 px-8 pb-4 pt-8">
-          <h1 className="font-display text-3xl font-bold text-brand-red">Join the Community</h1>
-          <p className="font-body text-sm text-brand-text">
+      <div className="w-full max-w-[576px] overflow-hidden rounded-2xl border border-white/20 bg-white shadow-xl">
+        <div className="flex flex-col items-center gap-1 px-4 sm:px-8 pb-3 pt-6 sm:pt-8 text-center">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-brand-red">Join the Community</h1>
+          <p className="font-body text-xs sm:text-sm text-brand-text">
             Connect with fellow students for safe, reliable campus commutes.
           </p>
         </div>
 
-        <form className="flex flex-col gap-4 px-8 pb-10" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-3.5 sm:gap-4 px-4 sm:px-8 pb-8 sm:pb-10" onSubmit={handleSubmit}>
           {error && (
-            <p className="rounded-lg bg-[#fde2e1] px-4 py-3 font-body text-sm text-brand-red-dark">
+            <p className="rounded-lg bg-[#fde2e1] px-4 py-2.5 font-body text-sm text-brand-red-dark">
               {error}
             </p>
           )}
 
           {/* Role toggle */}
-          <div className="flex rounded-lg bg-[#e6eeff] p-1">
+          <div className="flex rounded-xl bg-[#e6eeff] p-1">
             <button
               type="button"
               onClick={() => setRole('driver')}
-              className={`flex-1 rounded-md px-4 py-2 font-body text-xs font-medium tracking-[0.6px] transition-colors ${
+              className={`flex-1 rounded-lg px-3 py-2 font-body text-xs font-semibold tracking-wide transition-all active:scale-95 ${
                 isDriver ? 'bg-white text-brand-red shadow-sm' : 'text-brand-text'
               }`}
             >
@@ -106,7 +106,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setRole('passenger')}
-              className={`flex-1 rounded-md px-4 py-2 font-body text-xs font-medium tracking-[0.6px] transition-colors ${
+              className={`flex-1 rounded-lg px-3 py-2 font-body text-xs font-semibold tracking-wide transition-all active:scale-95 ${
                 !isDriver ? 'bg-white text-brand-red shadow-sm' : 'text-brand-text'
               }`}
             >
@@ -114,7 +114,7 @@ export default function Register() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <FormField
               label="Full Name"
               icon={iconUser}
@@ -135,7 +135,7 @@ export default function Register() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="flex flex-col gap-1">
               <span className="px-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
                 Gender
@@ -143,7 +143,7 @@ export default function Register() {
               <span className="relative flex items-center">
                 <img src={iconUser} alt="" className="pointer-events-none absolute left-[12px] h-4 w-4 opacity-70" />
                 <select
-                  className="w-full appearance-none rounded-lg border border-[#e4beb9] bg-white py-[13px] pl-[41px] pr-9 text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+                  className="w-full appearance-none rounded-lg border border-[#e4beb9] bg-white py-3 sm:py-[13px] pl-[41px] pr-9 text-base sm:text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
                   value={form.gender}
                   onChange={update('gender')}
                   required
@@ -180,7 +180,7 @@ export default function Register() {
           />
 
           {isDriver && (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="flex flex-col gap-1">
                 <span className="px-1 font-body text-xs font-medium uppercase tracking-[0.6px] text-brand-text">
                   Vehicle Type
@@ -188,7 +188,7 @@ export default function Register() {
                 <span className="relative flex items-center">
                   <img src={iconCar} alt="" className="pointer-events-none absolute left-[12px] h-4 w-4 opacity-70" />
                   <select
-                    className="w-full appearance-none rounded-lg border border-[#e4beb9] bg-white py-[13px] pl-[41px] pr-9 text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+                    className="w-full appearance-none rounded-lg border border-[#e4beb9] bg-white py-3 sm:py-[13px] pl-[41px] pr-9 text-base sm:text-sm text-brand-ink focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
                     value={form.vehicleType}
                     onChange={update('vehicleType')}
                   >
@@ -214,7 +214,7 @@ export default function Register() {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <FormField
               label="Password"
               icon={iconLock}

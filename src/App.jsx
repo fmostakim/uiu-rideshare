@@ -8,6 +8,7 @@ import FindRide from './pages/FindRide';
 import MyTrips from './pages/MyTrips';
 import OfferRide from './pages/OfferRide';
 import Messages from './pages/Messages';
+import MobileBottomNav from './components/MobileBottomNav';
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
             }
           />
         </Routes>
+        <MobileBottomNav />
       </BrowserRouter>
     </AuthProvider>
   );

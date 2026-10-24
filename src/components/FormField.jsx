@@ -25,7 +25,7 @@ export default function FormField({
         <input
           type={inputType}
           placeholder={placeholder}
-          className={`w-full rounded-lg border border-[#e4beb9] bg-brand-bg py-[15px] text-sm text-brand-ink placeholder:text-gray-500 focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red ${
+          className={`w-full rounded-lg border border-[#e4beb9] bg-brand-bg py-3 text-base sm:py-[15px] sm:text-sm text-brand-ink placeholder:text-gray-500 focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red ${
             icon ? 'pl-[41px]' : 'pl-4'
           } ${isPassword && toggleablePassword ? 'pr-10' : 'pr-4'}`}
           {...props}

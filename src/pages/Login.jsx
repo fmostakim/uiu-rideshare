@@ -88,24 +88,24 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-[448px] rounded-xl border border-[rgba(228,190,185,0.3)] bg-white p-[33px] shadow-[0px_4px_6px_rgba(0,0,0,0.05),0px_8px_16px_rgba(0,0,0,0.08)]">
+      <div className="w-full max-w-[448px] rounded-2xl border border-[rgba(228,190,185,0.3)] bg-white p-5 sm:p-8 shadow-[0px_4px_6px_rgba(0,0,0,0.05),0px_8px_16px_rgba(0,0,0,0.08)]">
         <div className="flex flex-col items-center pb-2">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="" className="h-[27px] w-[30px] rounded" />
-            <h1 className="font-display text-3xl font-bold tracking-[-0.8px] text-brand-red">
+            <img src={logo} alt="" className="h-7 w-7 sm:h-[30px] sm:w-[30px] rounded-lg object-cover" />
+            <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-brand-red">
               UIU RideShare
             </h1>
           </div>
-          <p className="font-body text-base text-brand-text">Welcome Back</p>
+          <p className="mt-1 font-body text-sm sm:text-base text-brand-text">Welcome Back</p>
         </div>
 
         {/* Role toggle */}
-        <div className="mt-6 flex rounded-lg border border-[#e4beb9] bg-brand-bg p-[5px]">
+        <div className="mt-5 flex rounded-xl border border-[#e4beb9] bg-brand-bg p-1">
           <button
             type="button"
             onClick={() => handleRoleChange('passenger')}
-            className={`flex-1 rounded-md px-4 py-2 font-body text-sm font-semibold transition-colors ${
-              role === 'passenger' ? 'bg-brand-red-dark text-white' : 'text-brand-text'
+            className={`flex-1 rounded-lg px-3 py-2 font-body text-xs sm:text-sm font-semibold transition-all active:scale-95 ${
+              role === 'passenger' ? 'bg-brand-red-dark text-white shadow-sm' : 'text-brand-text'
             }`}
           >
             Passenger
@@ -113,17 +113,17 @@ export default function Login() {
           <button
             type="button"
             onClick={() => handleRoleChange('driver')}
-            className={`flex-1 rounded-md px-4 py-2 font-body text-sm font-semibold transition-colors ${
-              role === 'driver' ? 'bg-brand-red-dark text-white' : 'text-brand-text'
+            className={`flex-1 rounded-lg px-3 py-2 font-body text-xs sm:text-sm font-semibold transition-all active:scale-95 ${
+              role === 'driver' ? 'bg-brand-red-dark text-white shadow-sm' : 'text-brand-text'
             }`}
           >
             Driver
           </button>
         </div>
 
-        <form className="mt-6 flex flex-col gap-6" onSubmit={handleSubmit}>
+        <form className="mt-5 flex flex-col gap-4 sm:gap-5" onSubmit={handleSubmit}>
           {error && (
-            <p className="rounded-lg bg-[#fde2e1] px-4 py-3 font-body text-sm text-brand-red-dark">
+            <p className="rounded-lg bg-[#fde2e1] px-4 py-2.5 font-body text-sm text-brand-red-dark">
               {error}
             </p>
           )}
@@ -150,8 +150,8 @@ export default function Login() {
               required
             />
             <div className="flex items-center justify-between px-1">
-              <label className="flex items-center gap-2 font-body text-sm text-brand-text">
-                <input type="checkbox" className="size-4 rounded border-[#e4beb9]" />
+              <label className="flex items-center gap-2 font-body text-xs sm:text-sm text-brand-text cursor-pointer">
+                <input type="checkbox" className="size-4 rounded border-[#e4beb9] text-brand-red focus:ring-brand-red" />
                 Remember me
               </label>
               <button
@@ -161,7 +161,7 @@ export default function Login() {
                   setResetStatus('');
                   setResetId('');
                 }}
-                className="font-body text-xs font-semibold tracking-[0.6px] text-brand-red-dark hover:underline"
+                className="font-body text-xs font-semibold tracking-wide text-brand-red-dark hover:underline"
               >
                 Forgot Password?
               </button>
@@ -171,7 +171,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-lg bg-brand-red py-4 font-display text-base text-white shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.1),0px_2px_4px_-2px_rgba(0,0,0,0.1)] disabled:opacity-60"
+            className="w-full rounded-xl bg-brand-red py-3.5 font-display text-base font-semibold text-white shadow-md shadow-brand-red/20 transition-all hover:bg-brand-red-dark active:scale-95 disabled:opacity-60"
           >
             {submitting ? 'Logging in…' : 'Log In'}
           </button>
@@ -179,28 +179,28 @@ export default function Login() {
 
         <Link
           to="/register"
-          className="mt-6 flex items-center justify-center gap-2 rounded-lg border-2 border-brand-red-dark py-[18px] font-display text-base text-brand-red-dark"
+          className="mt-4 flex items-center justify-center gap-2 rounded-xl border-2 border-brand-red-dark py-3 font-display text-sm sm:text-base font-semibold text-brand-red-dark transition-all hover:bg-brand-red-dark/5 active:scale-95"
         >
           Sign up with UIU ID
         </Link>
 
-        <p className="mt-6 text-center font-body text-sm text-brand-text">
+        <p className="mt-4 text-center font-body text-xs text-brand-text">
           By logging in, you agree to our{' '}
-          <a href="#" className="text-brand-red-dark">
+          <a href="#" className="font-medium text-brand-red-dark hover:underline">
             Community Guidelines
           </a>
           .
         </p>
 
         {/* Demo Helper */}
-        <div className="mt-8 flex justify-center gap-2 border-t border-brand-panel pt-4">
+        <div className="mt-6 flex flex-wrap justify-center gap-2 border-t border-brand-panel pt-4">
           <button
             type="button"
             onClick={() => {
               setStudentId('0112330099');
               setPassword('password123');
             }}
-            className="rounded-full bg-pink-100 px-3 py-1 font-body text-xs font-semibold text-pink-700 transition-all hover:bg-pink-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-1"
+            className="rounded-full bg-pink-100 px-3.5 py-1.5 font-body text-xs font-semibold text-pink-700 transition-all hover:bg-pink-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-1"
           >
             Ayesha (Female)
           </button>
@@ -210,7 +210,7 @@ export default function Login() {
               setStudentId('0112330088');
               setPassword('password123');
             }}
-            className="rounded-full bg-blue-100 px-3 py-1 font-body text-xs font-semibold text-blue-700 transition-all hover:bg-blue-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1"
+            className="rounded-full bg-blue-100 px-3.5 py-1.5 font-body text-xs font-semibold text-blue-700 transition-all hover:bg-blue-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1"
           >
             Rahim (Male)
           </button>
